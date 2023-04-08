@@ -1,0 +1,70 @@
+﻿@model CoStudy.Models.ViewModels.RegisterViewModel
+
+
+@{
+
+    ViewData["Title"] = "Registersssff";
+
+
+}
+
+
+
+
+
+<html>
+
+    <body>
+
+        <form asp-action="Register" method="post">
+
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            
+
+            <div class="form-group">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="form-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+
+
+
+        
+
+        
+        <input type="submit" value="register" class="btn btn-primary" />
+        <a asp-action="Login" asp-controller="Account"> Already have an account?</a>
+
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+
+
+
+
+
+
+
+
+
+        </form>
+
+    </body>
+
+
+
+
+
+</html>
