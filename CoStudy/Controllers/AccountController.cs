@@ -1,4 +1,5 @@
-﻿using CoStudy.Models.ViewModels;
+﻿using CoStudy.Models;
+using CoStudy.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,10 +8,10 @@ namespace CoStudy.Controllers
     public class AccountController : Controller
     {
 
-        private UserManager<IdentityUser> userManager;
-        private SignInManager<IdentityUser>SignInManager;
+        private UserManager<ApplicationUser> userManager;
+        private SignInManager<ApplicationUser>SignInManager;
 
-        public AccountController(UserManager<IdentityUser> _userManager, SignInManager<IdentityUser> _SignInManager) {
+        public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _SignInManager) {
         
         
         userManager = _userManager;
@@ -19,7 +20,7 @@ namespace CoStudy.Controllers
         }
 
 
-
+        [HttpGet]
         public ActionResult Register() {
 
             return View();
@@ -33,12 +34,12 @@ namespace CoStudy.Controllers
             if(ModelState.IsValid)
             {
 
-                IdentityUser user = new IdentityUser
+                ApplicationUser user = new ApplicationUser
                 {
-
+                    FirstName=model.FirstName!,
+                    LastName=model.LastName!,
                     Email = model.Email,
-                    UserName = model.Email
-
+                    UserName = model.UserName
 
                 };
 
@@ -63,6 +64,7 @@ namespace CoStudy.Controllers
 
         }
 
+        [HttpGet]
         public IActionResult Login()
         {
 
@@ -78,7 +80,7 @@ namespace CoStudy.Controllers
         {
             if(ModelState.IsValid) {
 
-                var result = await SignInManager.PasswordSignInAsync(model.Email!, model.Password!, false, false);
+                var result = await SignInManager.PasswordSignInAsync(model.UserName!, model.Password!, false, false);
 
                 if (result.Succeeded)
                 {
@@ -95,6 +97,15 @@ namespace CoStudy.Controllers
             return View(model);
 
 
+
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+
+
+            await SignInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
 
         }
 

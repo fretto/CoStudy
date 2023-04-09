@@ -1,4 +1,5 @@
 using CoStudy.Data;
+using CoStudy.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -21,7 +22,7 @@ builder.Services.AddDbContext<MyDbContext>(options =>//same as the previous proj
 
 
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(Options =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(Options =>
 {
 
 
