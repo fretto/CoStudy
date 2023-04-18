@@ -24,6 +24,7 @@
 
                 <a href="#about">ABOUT</a>
                 <a href="#services">SERVICES</a>
+                <a asp-action="Index" asp-controller="Home">HOME</a>
 
 
 
@@ -35,6 +36,8 @@
                 <a asp-action="Login" asp-controller="Account">LOG IN</a>
                 <a href="#about">ABOUT</a>
                 <a href="#services">SERVICES</a>
+                <a asp-action="Index" asp-controller="Home">HOME</a>
+
 
             }
             
@@ -43,7 +46,8 @@
     <!--------------------------end of header------------------------------->
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+@*            here the body of other views will be rendered,in this position
+*@            @RenderBody()
         </main>
     </div>
 

@@ -6,5 +6,7 @@
         public int CourseId { get; set; }
         public string? CourseName { get; set; }
 
+        public ICollection<Skill>? Skills { get; set; }
+
     }
 }

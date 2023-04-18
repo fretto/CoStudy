@@ -2,7 +2,7 @@ form {display: grid;grid-template-columns: 1fr;grid-gap: 10px;}
 body {display: grid;place-items: center;min-height: 100vh;background-image: url("../images/college1.jpeg"); background-repeat: no-repeat;
     background-size:1400px 1000px;background-attachment: fixed;font-family: copperplate, Candara;color:#366CC7;}
 input {width: 100%;padding: 0.75em 1.25em;margin: 0.5em 0;display: inline-block;border: 0.063em solid #ccc;box-sizing: border-box;}
-#a {background-color: #366CC7;color: white;padding: 0.875em 1.25em;margin: 0.5em 0;border: none;cursor: pointer;width: 100%;}
+button {background-color: #366CC7;color: white;padding: 0.875em 1.25em;margin: 0.5em 0;border: none;cursor: pointer;width: 100%;}
 button:hover {opacity: 0.8;box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);}
 .eye {margin-left: -30px; cursor: pointer;}
 .container {padding: 1em; .container {display: grid;grid-template-columns: 1fr;grid-gap: 20px;text-align: center;}}

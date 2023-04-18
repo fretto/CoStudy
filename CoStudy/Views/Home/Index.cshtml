@@ -15,7 +15,7 @@
     </div>
     <br> <br>
     <div>
-        <button class="button-81" role="button">View Courses</button>
+        <a  class="button-81" role="button" asp-action="AllCourses" asp-controller="Home">View Courses</a>
         <button class="button-81" role="button">Edit Portfolio</button>
     </div>
     <!--Our Services Section-->
@@ -37,7 +37,7 @@
                     So why wait?
                     Create your portfolio now!
                 </p>
-                <button class="card-button">View Portfolio</button>
+                <a class="card-button">View Portfolio</a>
             </div>
             <div class="card">
                 <div class="icon-circle">
@@ -54,7 +54,7 @@
                     Explore courses and start your
                     journey toward success!
                 </p>
-                <button class="card-button">View Courses</button>
+                <a asp-action="AllCourses" asp-controller="Home" class="card-button">View Courses</a>
             </div>
         </div>
     </div>

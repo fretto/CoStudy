@@ -8,14 +8,17 @@ namespace CoStudy.Data
     {
 
        public MyDbContext(DbContextOptions<MyDbContext>options):base(options) { 
+ 
         
-        
-        
-        
-        
-        
-        
+
         }
+
+
+
+        public DbSet<Course> UniCourses { get; set; }   
+        public DbSet<Skill> Skills { get; set; }
+        public DbSet<OnlineCourse> OnlineCourses { get; set; }
+
 
     }
 }
