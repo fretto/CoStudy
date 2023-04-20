@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CoStudy.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class modify : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,6 +30,8 @@ namespace CoStudy.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -48,6 +50,50 @@ namespace CoStudy.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OnlineCourses",
+                columns: table => new
+                {
+                    OnlineCourseId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CourseTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CourseDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    level = table.Column<int>(type: "int", nullable: false),
+                    ReviewCount = table.Column<int>(type: "int", nullable: false),
+                    CourseURL = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OnlineCourses", x => x.OnlineCourseId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Skills",
+                columns: table => new
+                {
+                    SkillId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SkillName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Skills", x => x.SkillId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UniCourses",
+                columns: table => new
+                {
+                    CourseId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CourseName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UniCourses", x => x.CourseId);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +202,30 @@ namespace CoStudy.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CourseSkill",
+                columns: table => new
+                {
+                    CoursesCourseId = table.Column<int>(type: "int", nullable: false),
+                    SkillsSkillId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseSkill", x => new { x.CoursesCourseId, x.SkillsSkillId });
+                    table.ForeignKey(
+                        name: "FK_CourseSkill_Skills_SkillsSkillId",
+                        column: x => x.SkillsSkillId,
+                        principalTable: "Skills",
+                        principalColumn: "SkillId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CourseSkill_UniCourses_CoursesCourseId",
+                        column: x => x.CoursesCourseId,
+                        principalTable: "UniCourses",
+                        principalColumn: "CourseId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,6 +264,11 @@ namespace CoStudy.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseSkill_SkillsSkillId",
+                table: "CourseSkill",
+                column: "SkillsSkillId");
         }
 
         /// <inheritdoc />
@@ -215,10 +290,22 @@ namespace CoStudy.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CourseSkill");
+
+            migrationBuilder.DropTable(
+                name: "OnlineCourses");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Skills");
+
+            migrationBuilder.DropTable(
+                name: "UniCourses");
         }
     }
 }

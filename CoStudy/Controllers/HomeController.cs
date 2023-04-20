@@ -25,8 +25,10 @@ namespace CoStudy.Controllers
         public IActionResult AllCourses() {
             //this view displayes all the online courses we have
 
+           var courses= _context.OnlineCourses.ToList();
 
-            return View(_context.OnlineCourses);
+
+            return View(courses);
         }
 
 

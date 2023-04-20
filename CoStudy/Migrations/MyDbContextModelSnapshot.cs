@@ -104,6 +104,9 @@ namespace CoStudy.Migrations
                     b.Property<string>("CourseName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("CourseId");
 
                     b.ToTable("UniCourses");
@@ -120,11 +123,17 @@ namespace CoStudy.Migrations
                     b.Property<string>("CourseDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CourseName")
+                    b.Property<string>("CourseTitle")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CourseURL")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ReviewCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("level")
+                        .HasColumnType("int");
 
                     b.HasKey("OnlineCourseId");
 
