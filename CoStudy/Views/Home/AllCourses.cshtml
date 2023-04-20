@@ -164,53 +164,62 @@
 
 
 
-    @using (Html.BeginForm("Index", "Category"))
+    @using (Html.BeginForm("AllCourses", "Home"))
     {
-        <div style="text-align:center;">
+       <div style="text-align:center;">
 
             <span style="color:white;font-size:large;">looking for a specific course?</span>
-            <p >
+           <p >
                 Search: @Html.TextBox("Search_Data", ViewBag.FilterValue as string)
-                <input type="submit" value="Find" />
-
+                <input type="submit" value="Find"/>
 
             </p>
         </div>
        
     }
-    <div style="margin: 5em;">
-        <h1> Courses </h1>
-        <!---<p>"Education is the key to unlocking your potential."</p>-->
-        <!-----------------------Courses View---------------------------->
-        <div class="courses-container">
-
-            @foreach( var course in Model)
-            {
-
-
-                <div class="course-card">
-                    <div class="course-image">
-                        <img src="~/images/cs2.png" alt="Course Image" data-category="Web Development">
-                    </div>
-                    <div class="course-details">
-                        <h3>@course.CourseTitle</h3>
-                        <p>@course.CourseDescription</p>
-                        <div class="rating">
-                            <span class="star">&#9733;</span>
-                            <span class="star">&#9733;</span>
-                            <span class="star">&#9733;</span>
-                            <span class="star">&#9733;</span>
-                            <span class="star">&#9733;</span>
-                        </div>
-                        <a href="#">Learn More</a>
-                    </div>
-                </div>
-
-            }
-          
-
+    @if (!Model.Any()) //if the model doesn't return arny items it'll print no results found
+    {
+        <div style="text-align:center;margin-bottom:10px;" >
+            <span class="text-danger" > No results  </span>
         </div>
-    </div>
+    }
+    else
+    {
+        <div style="margin: 5em;">
+            <h1> Courses </h1>
+            <!---<p>"Education is the key to unlocking your potential."</p>-->
+            <!-----------------------Courses View---------------------------->
+            <div class="courses-container">
+
+                @foreach (var course in Model)
+                {
+
+
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="~/images/cs2.png" alt="Course Image" data-category="Web Development">
+                        </div>
+                        <div class="course-details">
+                            <h3>@course.CourseTitle</h3>
+                            <p>@course.CourseDescription</p>
+                            <div class="rating">
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                            </div>
+                            <a href="#">Learn More</a>
+                        </div>
+                    </div>
+
+                }
+
+
+            </div>
+        </div>
+    }
+   
 
 
     <!-----------------------end of courses------------------------>

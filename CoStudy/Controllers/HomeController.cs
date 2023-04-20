@@ -20,12 +20,22 @@ namespace CoStudy.Controllers
 
 
 
-        [HttpGet]
 
-        public IActionResult AllCourses() {
+        public IActionResult AllCourses(string? Search_Data) {
             //this view displayes all the online courses we have
 
-           var courses= _context.OnlineCourses.ToList();
+            var courses=new List<OnlineCourse>();
+
+
+            if (Search_Data == null)
+            {
+                courses = _context.OnlineCourses.ToList();
+
+            }
+            else
+            {
+                courses = _context.OnlineCourses.Where(x => x.CourseTitle!.ToUpper().Contains(Search_Data.ToUpper())).ToList();
+            }
 
 
             return View(courses);
