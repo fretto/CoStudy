@@ -21,11 +21,10 @@ namespace CoStudy.Controllers
 
 
 
-        public IActionResult AllCourses(string? Search_Data) {
+        public IActionResult AllCourses(string? Search_Data,int pg=1) {
             //this view displayes all the online courses we have
 
             var courses=new List<OnlineCourse>();
-
 
             if (Search_Data == null)
             {
@@ -34,11 +33,18 @@ namespace CoStudy.Controllers
             }
             else
             {
-                courses = _context.OnlineCourses.Where(x => x.CourseTitle!.ToUpper().Contains(Search_Data.ToUpper())).ToList();
+                courses = _context.OnlineCourses.Where(x => x.CourseTitle!.ToUpper().Contains(Search_Data.ToUpper()) || x.CourseDescription!.ToUpper().Contains(Search_Data.ToUpper())).ToList();
             }
+            ///// pagination
+            
+            const int pageSize = 9;
+            int count = courses.Count();
+            var page = new Page(count, pg, pageSize);
+            int skip = (pg - 1) * pageSize;
+            var data=courses.Skip(skip).Take(page.PageSize).ToList();
+            this.ViewBag.Page = page;
 
-
-            return View(courses);
+            return View(data);
         }
 
 

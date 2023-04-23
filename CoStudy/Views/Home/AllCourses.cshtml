@@ -5,6 +5,15 @@
 @{
     ViewData["title"] = "Online Courses";
 
+    Page page = new Page();
+    int PageNo = 0;
+    if(ViewBag.Page != null)
+    {
+
+        page = ViewBag.Page;
+        PageNo = page.CurrentPage;
+    }
+
     }
 
 
@@ -158,29 +167,39 @@
                 background-color: #555;
             }
 
+            
+
     </style>
 </head>
 <body>
 
 
+    @*<div>
+        <form asp-action="AllCourses" asp-controller="Home">
 
-    @using (Html.BeginForm("AllCourses", "Home"))
-    {
-       <div style="text-align:center;">
+            <span>
+                <input type="text"   placeholder="search.." name="Search_Data" />
+                <input type="submit" value="search" />
+            </span>
 
-            <span style="color:white;font-size:large;">looking for a specific course?</span>
-           <p >
-                Search: @Html.TextBox("Search_Data", ViewBag.FilterValue as string)
-                <input type="submit" value="Find"/>
+        </form>
 
-            </p>
-        </div>
+
+    </div>*@
+
+    <div class="input-box" >
+        <form asp-action="AllCourses" asp-controller="Home">
+            <i class="uil uil-search"></i>
+            <input type="text" placeholder="Search here..." name="Search_Data" />
+        </form>
        
-    }
+
+    </div>
+
     @if (!Model.Any()) //if the model doesn't return arny items it'll print no results found
     {
         <div style="text-align:center;margin-bottom:10px;" >
-            <span class="text-danger" > No results  </span>
+            <span > No results  </span>
         </div>
     }
     else
@@ -221,6 +240,37 @@
     }
    
 
+@*    start of pagination bar
+*@    <div class="container">
+
+        @if (page.TotalPages > 0)
+        {
+            
+            <ul class="pagination justify-content-end">
+
+                @for(var pge = page.StartPage; pge <= page.EndPage; pge++)
+                {
+                    
+                    <li class="page-item @(pge==page.CurrentPage?"active" :"")">
+                        <a class="page-link" asp-controller="Home" asp-action="AllCourses" asp-route-pg="@pge">@pge</a>
+
+
+
+
+                    </li>
+
+                }
+
+            </ul>
+
+        }
+
+@*        end of pagination
+*@
+
+
+
+    </div>
 
     <!-----------------------end of courses------------------------>
     <!----html code for statements (change every 25 seconds)-->
