@@ -1,0 +1,197 @@
+﻿@model IEnumerable<OnlineCourse>
+
+
+
+@{
+    ViewData["title"] = "Online Courses";
+
+    Page page = new Page();
+    int PageNo = 0;
+    if (ViewBag.Page != null)
+    {
+
+        page = ViewBag.Page;
+        PageNo = page.CurrentPage;
+    }
+
+}
+
+
+    <!----html code for statements (change every 25 seconds)-->
+    <div style="background-color: #ccc; margin: 4em 5em;border-radius: 20px;padding: 3em;">
+        <h1 style="display:inline-block;"> Courses </h1>
+        <span>
+            <form asp-action="AllCourses1" asp-controller="Home" class="search-bar" style="float: right;">
+                <input type="search" name="Search_Data" pattern=".*\S.*" placeholder="search...">
+                <button class="search-btn" type="submit">
+                </button>
+            </form>
+        </span>
+
+        <h2> Explore our comprehensive technical courses and discover how you can learn and excel in these fields... </h2>
+        <div class="slider">
+            <div class="slide-track">
+
+                <div class="slide">
+                    <p> IT Felid</p>
+                </div>
+                <!--testing slide - delete them - loop from database-->
+                <div class="slide">
+                    <p> Web developmnet</p>
+                </div>
+                <div class="slide">
+                    <p> AI</p>
+                </div>
+                <div class="slide">
+                    <p> security</p>
+                </div>
+                <div class="slide">
+                    <p> Networking</p>
+                </div>
+                <div class="slide">
+                    <p>Database</p>
+                </div>
+                <div class="slide">
+                    <p>Machine learning</p>
+                </div>
+                <div class="slide">
+                    <p>Algorithms</p>
+                </div>
+                <div class="slide">
+                    <p>Data analysis</p>
+                </div>
+                <div class="slide">
+                    <p>Mobile developmnet</p>
+                </div>
+                <div class="slide">
+                    <p>Software engineering</p>
+                </div>
+                <div class="slide">
+                    <p> IT Felid</p>
+                </div>
+                
+                <!------------ end of testing slide--------------------->
+            </div>
+        </div>
+        <!--end of slider-->
+        <!-----------------------Courses View---------------------------->
+
+
+    @if (!Model.Any())
+    {
+
+        <div style="text-align:center;margin-bottom:10px; margin-top: 50px;">
+            <p style="font-size: 30px;"> No results Found  </p>
+            <img src="~/images/noresult.png" alt="no result found" width="600px" height="350px">
+        </div>
+
+    }
+    else
+    {
+        
+     <div class="courses-container">
+
+        @foreach(var course in Model)
+        {
+            
+<div class="course-card">
+                <div class="course-image">
+                    <img src="~/images/cs2.png" alt="Course Image" data-category="Web Development">
+                </div>
+                <div class="course-details">
+                    <h3>@course.CourseTitle</h3>
+                    <p id="course-description">@course.CourseDescription</p>
+
+                    <div class="rating">
+                        <span class="fa fa-star" data-rating="1"></span>
+                        <span class="fa fa-star" data-rating="2"></span>
+                        <span class="fa fa-star" data-rating="3"></span>
+                        <span class="fa fa-star" data-rating="4"></span>
+                        <span class="fa fa-star" data-rating="5"></span>
+                    </div>
+                    <a href="#">Learn More</a>
+                </div>
+            </div>
+        }
+
+        
+        </div>
+    }
+
+
+
+    @*    start of pagination bar
+    *@    <div class="container">
+
+        @if (page.TotalPages > 0)
+        {
+
+            <ul class="pagination justify-content-end">
+
+                @for (var pge = page.StartPage; pge <= page.EndPage; pge++)
+                {
+
+                    <li class="page-item @(pge==page.CurrentPage?"active" :"")">
+                        <a class="page-link" asp-controller="Home" asp-action="AllCourses1" asp-route-pg="@pge">@pge</a>
+
+
+
+
+                    </li>
+
+                }
+
+            </ul>
+
+        }
+
+        @*        end of pagination
+        *@
+
+   
+    </div>
+</div>
+
+    <!-----------------------end of courses------------------------>
+
+    <script>
+        /* display cat name above course img*/
+        document.addEventListener('DOMContentLoaded', () => {
+            const courseImages = document.querySelectorAll(".course-image img");
+            // Loop through each course image and add a category name overlay
+            courseImages.forEach((image) => {
+                const categoryName = image.dataset.category; // Get the category name from the data-category attribute
+                const overlay = document.createElement("div"); // Create a new div element for the overlay
+                overlay.classList.add("category-overlay"); // Add the "category-overlay" class to the div element
+                overlay.textContent = categoryName; // Set the text content of the div element to the category name
+                image.parentElement.appendChild(overlay); // Add the div element as a child of the course image's parent element
+            });
+        });
+        /*limit descreption char appears*/
+        // Get the course description element
+        var description = document.getElementById("course-description");
+        // Truncate the course description to 100 characters
+        var truncatedDescription = description.textContent.substr(0, 70) + "...";
+        // Set the truncated description as the content of the element
+        description.textContent = truncatedDescription;
+
+        /*rating system*/
+        const stars = document.querySelectorAll(".fa-star");
+        function handleStarClick(e) {
+            const clickedStar = e.target;
+            const clickedRating = clickedStar.getAttribute("data-rating");
+            for (let i = 0; i < stars.length; i++) {
+                const star = stars[i];
+                const starRating = star.getAttribute("data-rating");
+                if (starRating <= clickedRating) {
+                    star.classList.add("active");
+                } else {
+                    star.classList.remove("active");
+                }
+            }
+        }
+        stars.forEach((star) => {
+            star.classList.remove("active");
+            star.addEventListener("click", handleStarClick);
+        });
+    </script>

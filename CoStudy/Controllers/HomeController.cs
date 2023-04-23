@@ -21,7 +21,7 @@ namespace CoStudy.Controllers
 
 
 
-        public IActionResult AllCourses(string? Search_Data,int pg=1) {
+        public IActionResult AllCourses1(string? Search_Data,int pg=1) {
             //this view displayes all the online courses we have
 
             var courses=new List<OnlineCourse>();

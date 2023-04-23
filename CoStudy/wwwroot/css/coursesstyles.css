@@ -1,0 +1,304 @@
+﻿/*search*/
+.search-bar {
+    display: flex
+}
+
+    .search-bar input, .search-btn, .search-btn:before, .search-btn:after {
+        transition: all .25s ease-out
+    }
+
+    .search-bar input, .search-btn {
+        border: none;
+        width: 3em;
+        height: 3em
+    }
+
+        .search-bar input:invalid:not(:focus), .search-btn {
+            cursor: pointer
+        }
+
+        .search-bar, .search-bar input:focus, .search-bar input:valid {
+            width: 100%
+        }
+
+            .search-bar input:focus, .search-bar input:not(:focus) + .search-btn:focus {
+                outline: transparent
+            }
+
+.search-bar {
+    margin: auto;
+    padding: 1.5em;
+    justify-content: center;
+    max-width: 200px
+}
+
+    .search-bar input {
+        background: transparent;
+        border-radius: 1.5em;
+        box-shadow: 0 0 0 .4em #2762f3 inset;
+        padding: .75em;
+        transform: translate(0.5em,0.5em) scale(0.5);
+        transform-origin: 100% 0;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none
+    }
+
+        .search-bar input::-webkit-search-decoration {
+            -webkit-appearance: none
+        }
+
+        .search-bar input:focus, .search-bar input:valid {
+            background: #fff;
+            border-radius: .375em 0 0 .375em;
+            box-shadow: 0 0 0 .1em #d9d9d9 inset;
+            transform: scale(1)
+        }
+
+.search-btn {
+    background: #0c48db;
+    border-radius: 20px;
+    padding: .75em;
+    position: relative;
+    transform: translate(0.25em,0.25em) rotate(45deg) scale(0.25,0.125);
+    transform-origin: 0 50%
+}
+
+    .search-btn:before, .search-btn:after {
+        color: #0062cc;
+        content: "";
+        display: block;
+        opacity: 0;
+        position: absolute
+    }
+
+    .search-btn:before {
+        border-radius: 50%;
+        box-shadow: 0 0 0 .2em #f1f1f1 inset;
+        top: .75em;
+        left: .75em;
+        width: 1.2em;
+        height: 1.2em
+    }
+
+    .search-btn:after {
+        background: #f1f1f1;
+        border-radius: 0 .25em .25em 0;
+        top: 51%;
+        left: 51%;
+        width: .75em;
+        height: .25em;
+        transform: translate(0.2em,0) rotate(45deg);
+        transform-origin: 0 50%
+    }
+
+    .search-btn span {
+        display: inline-block;
+        overflow: hidden;
+        width: 1px;
+        height: 1px
+    }
+
+.search-bar input:focus + .search-btn, .search-bar input:valid + .search-btn {
+    background: #2762f3;
+    border-radius: 0 .375em .375em 0;
+    transform: scale(1)
+}
+
+    .search-bar input:focus + .search-btn:before, .search-bar input:focus + .search-btn:after, .search-bar input:valid + .search-btn:before, .search-bar input:valid + .search-btn:after {
+        opacity: 1
+    }
+
+    .search-bar input:focus + .search-btn:hover, .search-bar input:valid + .search-btn:hover, .search-bar input:valid:not(:focus) + .search-btn:focus {
+        background: #0c48db
+    }
+
+    .search-bar input:focus + .search-btn:active, .search-bar input:valid + .search-btn:active {
+        transform: translateY(1px)
+    }
+
+@media screen and (prefers-color-scheme: dark) {
+    .search-bar input {
+        box-shadow: 0 0 0 .4em #0062cc inset
+    }
+
+        .search-bar input:focus, .search-bar input:valid {
+            background: #ccc;
+            box-shadow: 0 0 0 .1em #0062cc inset
+        }
+
+    .search-btn {
+        background: #f1f1f1
+    }
+}
+/*end of search*/
+body {
+    display: grid;
+}
+
+.courses-container {
+    border-radius: 10px;
+    background-color: #ccc;
+    margin-bottom: 2cm;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px
+}
+
+.course-card {
+    position: relative;
+    background-color: #ccc;
+    flex-basis: calc(31% - 15px);
+    height: 440px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform .2s ease-in-out;
+    display: grid;
+    flex-direction: column;
+    padding-bottom: 10px
+}
+
+    .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2)
+    }
+
+.course-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover
+}
+
+.course-details {
+    padding: 20px;
+    flex-grow: 1
+}
+
+    .course-details h3 {
+        font-size: 1.5rem;
+        margin-top: 0
+    }
+
+    .course-details p {
+        font-size: 1.1rem;
+        margin-top: 10px
+    }
+
+    .course-details p {
+        margin-bottom: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+
+    .course-details a {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color .2s ease-in-out
+    }
+
+        .course-details a:hover {
+            background-color: #0062cc
+        }
+
+.course-image {
+    position: relative
+}
+
+.category-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 5px 10px;
+    background-color: rgba(115,176,212,0.795);
+    height: 190px;
+    width: 300px;
+    color: #fdf4f4;
+    font-size: 40px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0)
+    }
+
+    100% {
+        transform: translateX(calc(-250px * 7))
+    }
+}
+
+p {
+    color: #0062cc;
+    font-size: larger
+}
+
+.slider {
+    background: #ccc;
+    height: auto;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+    width: 960px
+}
+
+    .slider::before, .slider::after {
+        content: "";
+        height: 100px;
+        position: absolute;
+        width: 200px;
+        z-index: 2
+    }
+
+    .slider::after {
+        right: 0;
+        top: 0;
+        transform: rotateZ(180deg)
+    }
+
+    .slider::before {
+        left: 0;
+        top: 0
+    }
+
+.slide-track {
+    animation: scroll 40s linear infinite;
+    display: flex;
+    width: calc(250px * 14)
+}
+
+.slide {
+    height: 100px;
+    width: 250px
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0)
+    }
+
+    100% {
+        transform: translateX(-3500px)
+    }
+}
+
+.rating .fa-star {
+    color: gray;
+    cursor: pointer
+}
+
+    .rating .fa-star.active, .rating .fa-star:hover {
+        color: #0062cc !important
+    }
