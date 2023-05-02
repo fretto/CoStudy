@@ -115,5 +115,21 @@ namespace CoStudy.Controllers
         {
             return View();
         }
-    }
+
+        [HttpGet]
+        public async Task <IActionResult> Portfolio(string? name)
+        {
+
+            var user = await userManager.FindByNameAsync(name!);
+
+
+            return View(user);
+
+
+        }
+
+
+
+
+	}
 }

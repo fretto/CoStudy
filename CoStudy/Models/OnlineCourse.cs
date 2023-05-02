@@ -10,21 +10,22 @@ namespace CoStudy.Models
         public int OnlineCourseId { get; set; }
         public string? CourseTitle { get; set; }
         public string? CourseDescription { get; set; }
-        public Level level { get; set; }
+        //public Level level { get; set; }
 
         //duration_rating
+
         public int ReviewCount { get; set; }
 
         public string? CourseURL { get; set; }  
-        public enum Level
-        {
-            beginner,
-            intermediate,
-            advance
+        //public enum Level
+        //{
+        //    beginner,
+        //    intermediate,
+        //    advance
 
-        }
+        //}
 
-
+        public ICollection<Skill>? Skill { get; set; }   
 
 
     }

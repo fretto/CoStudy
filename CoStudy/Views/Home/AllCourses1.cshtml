@@ -96,11 +96,11 @@
             
 <div class="course-card">
                 <div class="course-image">
-                    <img src="~/images/cs2.png" alt="Course Image" data-category="Web Development">
+                    <img src="~/images/kasit.png" alt="Course Image" data-category="Web Development">
                 </div>
                 <div class="course-details">
                     <h3>@course.CourseTitle</h3>
-                    <p id="course-description">@course.CourseDescription</p>
+                    <p class="course-description">@course.CourseDescription</p>
 
                     <div class="rating">
                         <span class="fa fa-star" data-rating="1"></span>
@@ -169,29 +169,39 @@
         });
         /*limit descreption char appears*/
         // Get the course description element
-        var description = document.getElementById("course-description");
-        // Truncate the course description to 100 characters
+    var descriptions = document.getElementsByClassName("course-description");
+
+    for (var i = 0; i < descriptions.length; i++) {
+        var description = descriptions[i];
         var truncatedDescription = description.textContent.substr(0, 70) + "...";
-        // Set the truncated description as the content of the element
         description.textContent = truncatedDescription;
+    }
 
         /*rating system*/
-        const stars = document.querySelectorAll(".fa-star");
-        function handleStarClick(e) {
-            const clickedStar = e.target;
-            const clickedRating = clickedStar.getAttribute("data-rating");
-            for (let i = 0; i < stars.length; i++) {
-                const star = stars[i];
-                const starRating = star.getAttribute("data-rating");
-                if (starRating <= clickedRating) {
-                    star.classList.add("active");
-                } else {
-                    star.classList.remove("active");
-                }
+    /*rating system*/
+    function handleStarClick(e, ratingSystem) {
+        const clickedStar = e.target;
+        const clickedRating = clickedStar.getAttribute("data-rating");
+        const stars = ratingSystem.querySelectorAll(".fa-star");
+        for (let i = 0; i < stars.length; i++) {
+            const star = stars[i];
+            const starRating = star.getAttribute("data-rating");
+            if (starRating <= clickedRating) {
+                star.classList.add("active");
+            } else {
+                star.classList.remove("active");
             }
         }
+    }
+
+    const ratingSystems = document.querySelectorAll(".rating");
+    ratingSystems.forEach((ratingSystem) => {
+        const stars = ratingSystem.querySelectorAll(".fa-star");
         stars.forEach((star) => {
             star.classList.remove("active");
-            star.addEventListener("click", handleStarClick);
+            star.addEventListener("click", (e) => {
+                handleStarClick(e, ratingSystem);
+            });
         });
+    });
     </script>

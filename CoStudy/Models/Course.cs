@@ -13,6 +13,7 @@
 
 
         public ICollection<Skill>? Skills { get; set; }
+        public ICollection<ApplicationUser>? students { get; set; }
 
     }
 }

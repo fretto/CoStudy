@@ -1,6 +1,7 @@
 ﻿using CoStudy.Data;
 using CoStudy.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace CoStudy.Controllers
@@ -64,5 +65,8 @@ namespace CoStudy.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        
     }
 }
