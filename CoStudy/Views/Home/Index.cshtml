@@ -4,6 +4,12 @@
 
 
 
+@if(TempData["warning"]!=null){
+    
+    <div class="alert alert-warning" role="alert" style="width:30%;text-align:center;margin-left:380px;">@TempData["warning"]</div>
+}
+
+
 
 <div class="container">
     <br>
@@ -16,7 +22,7 @@
     <br> <br>
     <div>
         <a  class="button-81" role="button" asp-action="AllCourses1" asp-controller="Home">View Courses</a>
-        <button class="button-81" role="button">Edit Portfolio</button>
+        <a class="button-81" role="button" asp-action="Portfolio" asp-controller="Account" asp-route-name="@User.Identity.Name">Edit Portfolio</a>
     </div>
     <!--Our Services Section-->
     <div class="section" id="services">
@@ -37,8 +43,9 @@
                     So why wait?
                     Create your portfolio now!
                 </p>
-                <a class="card-button">View Portfolio</a>
+                <a asp-action="Portfolio" asp-controller="Account" asp-route-name="@User.Identity.Name" class="card-button">View Portfolio</a>
             </div>
+
             <div class="card">
                 <div class="icon-circle">
                     <img src="~/images/coursesicons.png" alt="courses-icon" width="60px" height="60px" />

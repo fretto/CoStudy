@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using CoStudy.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace CoStudy.Models
 {
@@ -11,7 +13,7 @@ namespace CoStudy.Models
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 
-        public string? Major { get; set; }  
+        public Major major { get; set; }  
         public string? LinkedIn { get; set; }
         public string? GitHub { get; set; }
 

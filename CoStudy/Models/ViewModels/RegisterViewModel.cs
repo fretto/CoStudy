@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CoStudy.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace CoStudy.Models.ViewModels
 {
@@ -22,10 +23,16 @@ namespace CoStudy.Models.ViewModels
         [Required(ErrorMessage ="Email is required")]
         [Display(Name ="Email Address")]
         public string? Email { get; set; }
-        [DataType(DataType.Password)]
-        [Required(ErrorMessage ="Password is required")]
 
-        public string? Password { get; set; }
+
+       
+
+        public Major major { get; set; }
+
+		[DataType(DataType.Password)]
+		[Required(ErrorMessage = "Password is required")]
+
+		public string? Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name="Confirm Password")]

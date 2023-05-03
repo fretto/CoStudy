@@ -39,7 +39,8 @@ namespace CoStudy.Controllers
                     FirstName=model.FirstName!,
                     LastName=model.LastName!,
                     Email = model.Email,
-                    UserName = model.UserName
+                    UserName = model.UserName,
+                    major=model.major
 
                 };
 
@@ -120,10 +121,29 @@ namespace CoStudy.Controllers
         public async Task <IActionResult> Portfolio(string? name)
         {
 
+            if (string.IsNullOrEmpty(name))
+            {
+
+                TempData["warning"] = "*Please login or sign up first";
+
+                return RedirectToAction("Index", "Home");
+
+
+            }
+
             var user = await userManager.FindByNameAsync(name!);
+            
+            if (user == null) {
+                TempData["warning"] = "Please login or sign up first";
 
+                return RedirectToAction("Index", "Home");
 
-            return View(user);
+            }
+
+            ViewBag.firstname = user.FirstName;
+			ViewBag.lastname = user.LastName;
+
+			return View(user);
 
 
         }

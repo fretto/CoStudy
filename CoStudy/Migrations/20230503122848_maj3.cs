@@ -5,7 +5,7 @@
 namespace CoStudy.Migrations
 {
     /// <inheritdoc />
-    public partial class newdb : Migration
+    public partial class maj3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

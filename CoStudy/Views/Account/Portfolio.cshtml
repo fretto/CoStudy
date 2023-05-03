@@ -1,28 +1,184 @@
 ﻿@model ApplicationUser
+@using CoStudy.Models.Enums
 
 
-
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
+
+	ViewData["title"] =  "Portfolio";
+	Layout = null;
 }
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="icon" type="image/x-icon" href="favicon.png" />
+	<title>My Portfolio</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="~/css/portfoliostyles.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<style>
+
+
+		header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		body {
+			display: grid;
+			flex-direction: column;
+			min-height: 100vh;
+			background-image: url("../images/cs2.png");
+			background-repeat: no-repeat;
+			background-size: 1400px 1000px;
+			background-attachment: fixed;
+			font-family: copperplate, Candara;
+			color: #366CC7;
+		}
+
+	</style>
+
+
+</head>
+
+
+<!-----------------------start of header---------------------------->
+<header>
+	<a href="index.html"><img src="~/images/logo.png" alt="website-logo" width="160em" height="120em" /></a>
+	<div class="nav top">
+
+
+		@{
+
+			var first = Model.FirstName;
+			var second = Model.LastName;
+
+		}
+		@if (User.Identity!.IsAuthenticated)
+		{
+			<a asp-action="Portfolio" asp-controller="Account" asp-route-name="@User.Identity.Name" style=" color:white;
+    background-color: #366CC7;
+    border-radius: 25px;">@User.Identity.Name</a>
+			<a asp-action="Logout" asp-controller="Account">LOGOUT</a>
+
+			<a href="#about">ABOUT</a>
+			<a href="#services">SERVICES</a>
+			<a asp-action="Index" asp-controller="Home">HOME</a>
 
 
 
-<p>@Model.FirstName</p>
-<p>@Model.LastName</p>
-<p>@Model.Email</p>
-<p>@Model.UserName</p>
+		}
+		else
+		{
 
-@*@foreach(var course in Model.Courses!)
-{
-    
-    <p>@course.CourseName</p>
-
-}
-*@
+			<a asp-action="Register" asp-controller="Account">SIGN UP</a>
+			<a asp-action="Login" asp-controller="Account">LOG IN</a>
+			<a href="#about">ABOUT</a>
+			<a href="#services">SERVICES</a>
+			<a asp-action="Index" asp-controller="Home">HOME</a>
 
 
+		}
 
+	</div>
+</header>
+<!--------------------------end of header------------------------------->
+<body>
+	<div class="container">
+		<div class="main-body">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex flex-column align-items-center text-center">
+								<div id="profile-image"></div>
+								<div class="mt-3">
+									<h4>@Model.UserName</h4>
+
+									@{string major=@Enum.GetName(typeof(Major),Model.major);}
+									<p class="text-secondary mb-1">@major</p>
+									<p class="text-muted font-size-sm">University Of Jordan</p>
+								</div>
+							</div>
+							<div><button type="button" class="btn btn-secondary" style="margin-left: 75px;padding:5px 15px;">Edit Your Portfolio</button></div>
+							<hr class="my-4">
+							<!-----Contact Section----->
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe me-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>Website</h6>
+									<span class="text-secondary">User_Website</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0">
+										<svg viewBox="0 0 8 6" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+											<path d="m0 0h8v6h-8zm.75 .75v4.5h6.5v-4.5z" fill="#366CC7" />
+											<path d="M0 0l4 3 4-3v1l-4 3-4-3z" fill="blue" />
+										</svg>   Email
+									</h6>
+									<span class="text-secondary">@Model.Email</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github me-2 icon-inline"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>Github</h6>
+									<span class="text-secondary">User_Github</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-linkedin" width="24" height="24" viewBox="0 0 24 24"> <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" /> </svg>LinkedIn</h6>
+									<span class="text-secondary">User_LinkedIn</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="bi bi-phone"> <path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H5z" /> <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" /> </svg>
+										Phone
+									</h6> <span class="text-secondary">User_Phone</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-----Skills Section----->
+				<div class="col-md-8">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="d-flex align-items-center mb-3">User Skills</h5>
+
+
+									<!--GET DATA FROM DB-->
+									<p>Skill 1</p>
+									<div class="progress mb-3  skills">
+										<div class="progress-bar bg-primary" role="progressbar" style="width: 70%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script type="text/javascript">
+
+
+		const firstName = "@ViewBag.firstname";
+		const lastName =  "@ViewBag.lastname" ;
+
+		// Get the first letter of the user's first and last name
+		const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`;
+
+		// Create an image with the user's initials inside a circle
+		const profileImage = document.getElementById("profile-image");
+		profileImage.innerHTML = `<div class="profile-image-circle" style="font-size:40px;">${initials}</div>`;
+	</script>
+
+</body>
+</html>

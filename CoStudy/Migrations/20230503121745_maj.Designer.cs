@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoStudy.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20230502114446_add")]
-    partial class add
+    [Migration("20230503121745_maj")]
+    partial class maj
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,8 +92,8 @@ namespace CoStudy.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Major")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Major")
+                        .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
