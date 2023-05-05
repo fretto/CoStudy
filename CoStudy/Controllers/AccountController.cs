@@ -1,7 +1,10 @@
-﻿using CoStudy.Models;
+﻿using CoStudy.Data;
+using CoStudy.Models;
 using CoStudy.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections;
 
 namespace CoStudy.Controllers
 {
@@ -10,12 +13,14 @@ namespace CoStudy.Controllers
 
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser>SignInManager;
+        private  MyDbContext _context;
 
-        public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _SignInManager) {
+		public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _SignInManager,MyDbContext context) {
         
         
         userManager = _userManager;
         SignInManager = _SignInManager;
+            _context = context;
         
         }
 
@@ -131,25 +136,29 @@ namespace CoStudy.Controllers
 
             }
 
-            var user = await userManager.FindByNameAsync(name!);
-            
-            if (user == null) {
+            var userr = await userManager.FindByNameAsync(name!);
+
+            if (userr == null)
+            {
                 TempData["warning"] = "Please login or sign up first";
 
                 return RedirectToAction("Index", "Home");
 
             }
 
-            ViewBag.firstname = user.FirstName;
+
+
+            var user=await _context.Users.Include(x=>x.Courses).FirstOrDefaultAsync(u=>u.UserName==name);
+			ViewBag.firstname = user!.FirstName;
 			ViewBag.lastname = user.LastName;
+
+
+			ViewBag.courses = user!.Courses!.ToList();
 
 			return View(user);
 
 
         }
-
-
-
 
 	}
 }

@@ -13,9 +13,23 @@ namespace CoStudy.Data
 
         }
 
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			base.OnModelCreating(builder);
+
+			builder.Entity<Course>()
+				.HasMany(p => p.students)
+				.WithMany(u => u.Courses)
+				.UsingEntity(j =>
+				
+					j.ToTable("StudentCourses")
+				
+				);
+		}
 
 
-        public DbSet<Course> UniCourses { get; set; }   
+
+		public DbSet<Course> UniCourses { get; set; }   
         public DbSet<Skill> Skills { get; set; }
         public DbSet<OnlineCourse> OnlineCourses { get; set; }
 
