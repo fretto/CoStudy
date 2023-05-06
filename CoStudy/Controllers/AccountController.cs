@@ -45,7 +45,7 @@ namespace CoStudy.Controllers
                     LastName=model.LastName!,
                     Email = model.Email,
                     UserName = model.UserName,
-                    major=model.major
+                    major=model.major //here
 
                 };
 
