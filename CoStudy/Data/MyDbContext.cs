@@ -32,6 +32,7 @@ namespace CoStudy.Data
 		public DbSet<Course> UniCourses { get; set; }   
         public DbSet<Skill> Skills { get; set; }
         public DbSet<OnlineCourse> OnlineCourses { get; set; }
+        public DbSet<CoStudy.Models.Book> Book { get; set; } = default!;
 
 
     }

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<CoStudy.Models.OnlineCourse>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Online Courses</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add new online course</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseURL)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReviewCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseURL)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.OnlineCourseId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.OnlineCourseId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.OnlineCourseId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

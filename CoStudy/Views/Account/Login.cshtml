@@ -42,10 +42,11 @@
                 <div>
 
                     <label asp-for="Password"><b>Password</b></label>
-                    <input asp-for="Password" placeholder="Enter Password" required>
+                    <input type="password" asp-for="Password" placeholder="Enter Password" required>
                     <span asp-validation-for="Password" class="text-danger"></span>
 
                 </div>
+                <a asp-action="ForgotPassword" asp-controller="Account"> forgot passsword?</a>
 
                 <div>
 
@@ -61,50 +62,8 @@
         </form>
     </div>
     <!--end of sign in form-->
-    <script type="text/javascript" src="function.js">
-        viewpassword();   //js function to view the password when user clicks the eye icon
-    </script>
+  
 </body>
 </html>
 
 
-
-
-@*<ntml>
-
-
-    <body>
-
-        <form asp-action="Login" asp-controller="Account">
-
-
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email"  class="form-control"/>
-                <span asp-validation-for="Email" class="text-danger"></span>
-
-            </div>
-
-            <div class="form-group">
-
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-
-
-            </div>
-
-            <input type="submit" value="login" asp-action="Login" class="btn btn-success"/>
-            <a asp-action="Register" >Don't have an account?</a>
-
-
-            <div asp-validation-summary="All" class="text-danger"></div>
-
-        </form>
-
-
-
-    </body>
-
-
-</ntml>*@

@@ -14,14 +14,18 @@ namespace CoStudy.Controllers
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser>SignInManager;
         private  MyDbContext _context;
+        private readonly ILogger<HomeController> _logger;
 
-		public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _SignInManager,MyDbContext context) {
+
+        public AccountController(ILogger<HomeController> logger,UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _SignInManager,MyDbContext context) {
         
         
         userManager = _userManager;
         SignInManager = _SignInManager;
             _context = context;
-        
+            _logger = logger;
+
+
         }
 
 
@@ -160,5 +164,47 @@ namespace CoStudy.Controllers
 
         }
 
-	}
-}
+        [HttpGet]
+
+        public IActionResult ForgotPassword()
+        {
+
+            return View();
+
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+
+                var user = await userManager.FindByEmailAsync(model.Email!);
+
+
+                if (user != null )
+                {
+
+                    var token = await userManager.GeneratePasswordResetTokenAsync(user!);
+
+
+
+                    var passwordResetLink = Url.Action("ResetPassword", "Account", new { email = model.Email, token = token }, Request.Scheme);
+
+                    //_logger.Log(LogLevel.Warning, passwordResetLink);
+
+                    return View("ForgotPasswordConfirmation");
+
+                }
+
+                return View("ForgotPasswordConfirmation");
+
+
+            }
+            return View(model);
+        }
+        }
+    }
