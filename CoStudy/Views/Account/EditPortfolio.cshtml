@@ -1,0 +1,21 @@
+﻿
+@model ApplicationUser
+
+
+
+
+<form asp-action="EditPortfolio" asp-route-id="@Model.Id">
+
+
+    <label asp-for="LinkedIn" >
+
+    </label>
+    <input asp-for="LinkedIn" />
+    <label asp-for="GitHub">
+
+    </label>
+    <input asp-for="GitHub" />
+
+    <input type="submit" value="save" />
+
+</form>

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
+using System.Security.Policy;
 
 namespace CoStudy.Controllers
 {
@@ -127,7 +128,7 @@ namespace CoStudy.Controllers
         }
 
         [HttpGet]
-        public async Task <IActionResult> Portfolio(string? name)
+        public async Task<IActionResult> Portfolio(string? name)
         {
 
             if (string.IsNullOrEmpty(name))
@@ -152,59 +153,135 @@ namespace CoStudy.Controllers
 
 
 
-            var user=await _context.Users.Include(x=>x.Courses).FirstOrDefaultAsync(u=>u.UserName==name);
-			ViewBag.firstname = user!.FirstName;
-			ViewBag.lastname = user.LastName;
+            var user = await _context.Users.Include(x => x.Courses).FirstOrDefaultAsync(u => u.UserName == name);
+            ViewBag.firstname = user!.FirstName;
+            ViewBag.lastname = user.LastName;
 
 
-			ViewBag.courses = user!.Courses!.ToList();
+            ViewBag.courses = user!.Courses!.ToList();
+
+            return View(user);
+
+
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> EditPortfolio(string? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Home");
+
+            }
+
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+			{
+				return RedirectToAction("Index", "Home");
+			}
 
 			return View(user);
 
 
         }
 
-        [HttpGet]
 
-        public IActionResult ForgotPassword()
+        [HttpPost]
+        public async Task<IActionResult> EditPortfolio(ApplicationUser model)
         {
+            if(ModelState.IsValid) {
 
+
+
+                var user = await userManager.FindByIdAsync(model.Id);
+
+                if (user != null)
+                {
+
+                user.LinkedIn = model.LinkedIn;
+                user.GitHub = model.GitHub;
+                    _ = _context.SaveChangesAsync();
+
+
+
+
+			}
+			return RedirectToAction("Index", "Home");
+
+            }
             return View();
+
+
+
 
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+
+        public async Task<IActionResult> Test()
         {
 
-            if (ModelState.IsValid)
+
+            var user = await userManager.FindByNameAsync("AyaZ");
+
+            Course course = new Course
             {
+                CourseName = "sql",
+                Description = "database management",
 
 
-                var user = await userManager.FindByEmailAsync(model.Email!);
+            };
 
+            user.Courses.Add(course);
 
-                if (user != null )
-                {
+            return RedirectToAction("Index", "Home");
 
-                    var token = await userManager.GeneratePasswordResetTokenAsync(user!);
-
-
-
-                    var passwordResetLink = Url.Action("ResetPassword", "Account", new { email = model.Email, token = token }, Request.Scheme);
-
-                    //_logger.Log(LogLevel.Warning, passwordResetLink);
-
-                    return View("ForgotPasswordConfirmation");
-
-                }
-
-                return View("ForgotPasswordConfirmation");
-
-
-            }
-            return View(model);
         }
-        }
+
+        //[HttpGet]
+
+        //public IActionResult ForgotPassword()
+        //{
+
+        //    return View();
+
+        //}
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        //{
+
+        //    if (ModelState.IsValid)
+        //    {
+
+
+        //        var user = await userManager.FindByEmailAsync(model.Email!);
+
+
+        //        if (user != null )
+        //        {
+
+        //            var token = await userManager.GeneratePasswordResetTokenAsync(user!);
+
+
+
+        //            var passwordResetLink = Url.Action("ResetPassword", "Account", new { email = model.Email, token = token }, Request.Scheme);
+
+        //            //_logger.Log(LogLevel.Warning, passwordResetLink);
+
+        //            return View("ForgotPasswordConfirmation");
+
+        //        }
+
+        //        return View("ForgotPasswordConfirmation");
+
+
+        //    }
+        //    return View(model);
+        //}
+    }
     }

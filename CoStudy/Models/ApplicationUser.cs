@@ -16,6 +16,7 @@ namespace CoStudy.Models
         public Major major { get; set; }  
         public string? LinkedIn { get; set; }
         public string? GitHub { get; set; }
+        public string? Website { get; set; }    
 
 
         public ICollection<Course>? Courses { get; set; }
