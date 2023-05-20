@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CoStudy.Models
 {
@@ -14,7 +15,9 @@ namespace CoStudy.Models
 
         //duration_rating
 
-        public int ReviewCount { get; set; }
+        public string? Level { get; set; }
+
+        public int? ReviewCount { get; set; }
 
         public string? CourseURL { get; set; }  
         //public enum Level

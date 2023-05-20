@@ -16,10 +16,13 @@
 
     <p class="whitetext"> LEARNING IS THE SOURCE OF HUMAN PROGRESS </p>
     <br> <br>
-    <div class="input-box">
-        <i class="uil uil-search"></i>
-        <input type="text" placeholder="Search here..." />
-    </div>
+    <form asp-action="AllCourses1" asp-controller="Home">
+        <div class="input-box">
+            <i class="uil uil-search"></i>
+            <input type="text" placeholder="Search by course title..." name="Search_Data" />
+        </div>
+    </form>
+  
     <br> <br>
     <div>
         <a  class="button-81" role="button" asp-action="AllCourses1" asp-controller="Home">View Courses</a>

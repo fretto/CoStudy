@@ -16,6 +16,10 @@
 
 }
 
+<head>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
 
     <!----html code for statements (change every 25 seconds)-->
     <div style="background-color: #ccc; margin: 4em 5em;border-radius: 20px;padding: 3em;">
@@ -99,7 +103,8 @@
                     <img src="~/images/kasit.png" alt="Course Image" data-category="Web Development">
                 </div>
                 <div class="course-details">
-                    <h3>@course.CourseTitle</h3>
+                        <h3>@course.CourseTitle</h3>  
+
                     <p class="course-description">@course.CourseDescription</p>
 
                     <div class="rating">
@@ -109,7 +114,8 @@
                         <span class="fa fa-star" data-rating="4"></span>
                         <span class="fa fa-star" data-rating="5"></span>
                     </div>
-                    <a href="#">Learn More</a>
+
+                        <a href="@Url.Content(course.CourseURL)">Learn More</a> <i class="bi bi-eye-fill" style="margin-left:70px;">@course.ReviewCount</i>
                 </div>
             </div>
         }

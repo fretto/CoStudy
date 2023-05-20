@@ -91,7 +91,20 @@ namespace CoStudy.Controllers
         {
             if(ModelState.IsValid) {
 
-                var result = await SignInManager.PasswordSignInAsync(model.UserName!, model.Password!, false, false);
+
+                var user = await userManager.FindByNameAsync(model.UserNameOrEmail!);
+
+                if (user == null)
+                {
+
+                    user = await userManager.FindByEmailAsync(model.UserNameOrEmail!);
+                }
+
+                if(user!=null)
+                {
+                var result = await SignInManager.PasswordSignInAsync(user, model.Password!, false, false);
+
+
 
                 if (result.Succeeded)
                 {
@@ -100,6 +113,11 @@ namespace CoStudy.Controllers
 
 
                 }
+
+
+                }
+
+
 
 
                 ModelState.AddModelError("", "Invalid Username or Password");
@@ -159,6 +177,7 @@ namespace CoStudy.Controllers
 
 
             ViewBag.courses = user!.Courses!.ToList();
+            
 
             return View(user);
 
@@ -202,7 +221,8 @@ namespace CoStudy.Controllers
 
                 user.LinkedIn = model.LinkedIn;
                 user.GitHub = model.GitHub;
-                    _ = _context.SaveChangesAsync();
+                    _context.Update(user);//must update the user to take the new values
+                await _context.SaveChangesAsync();
 
 
 
