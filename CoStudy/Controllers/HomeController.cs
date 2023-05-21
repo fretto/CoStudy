@@ -38,7 +38,7 @@ namespace CoStudy.Controllers
             }
             ///// pagination
             
-            const int pageSize = 9;
+            const int pageSize = 15;
             int count = courses.Count();
             var page = new Page(count, pg, pageSize);
             int skip = (pg - 1) * pageSize;

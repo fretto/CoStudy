@@ -115,8 +115,11 @@
                         <span class="fa fa-star" data-rating="5"></span>
                     </div>
 
-                        <a href="@Url.Content(course.CourseURL)">Learn More</a> <i class="bi bi-eye-fill" style="margin-left:70px;">@course.ReviewCount</i>
-                </div>
+                        <a href="@Url.Content(course.CourseURL)">Learn More</a> @if (@course.ReviewCount != null)
+                        {
+                            <i class="bi bi-eye-fill" style="margin-left:70px;">@course.ReviewCount</i>
+                        }
+                    </div>
             </div>
         }
 
