@@ -1,11 +1,12 @@
-﻿@{
+﻿﻿@{
     ViewData["Title"] = "Home Page";
 }
 
 
 
-@if(TempData["warning"]!=null){
-    
+@if (TempData["warning"] != null)
+{
+
     <div class="alert alert-warning" role="alert" style="width:30%;text-align:center;margin-left:380px;">@TempData["warning"]</div>
 }
 
@@ -22,10 +23,10 @@
             <input type="text" placeholder="Search by course title..." name="Search_Data" />
         </div>
     </form>
-  
+
     <br> <br>
     <div>
-        <a  class="button-81" role="button" asp-action="AllCourses1" asp-controller="Home">View Courses</a>
+        <a class="button-81" role="button" asp-action="AllCourses1" asp-controller="Home">View Courses</a>
         <a class="button-81" role="button" asp-action="Portfolio" asp-controller="Account" asp-route-name="@User.Identity.Name">Edit Portfolio</a>
     </div>
     <!--Our Services Section-->
@@ -111,5 +112,4 @@
         </div>
     </div>
 </div>
-
 
