@@ -28,7 +28,9 @@ namespace CoStudy.Models
 
         //}
 
-        public ICollection<Skill>? Skill { get; set; }   
+        public ICollection<Skill>? Skill { get; set; }
+        public ICollection<ApplicationUser>? students { get; set; }
+
 
 
     }

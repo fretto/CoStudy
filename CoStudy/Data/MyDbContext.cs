@@ -13,19 +13,38 @@ namespace CoStudy.Data
 
         }
 
-		protected override void OnModelCreating(ModelBuilder builder)
-		{
-			base.OnModelCreating(builder);
+		//protected override void OnModelCreating(ModelBuilder builder)
+		//{
+		//	base.OnModelCreating(builder);
 
-			builder.Entity<Course>()
-				.HasMany(p => p.students)
-				.WithMany(u => u.Courses)
-				.UsingEntity(j =>
+		//	builder.Entity<Course>()
+		//		.HasMany(p => p.students)
+		//		.WithMany(u => u.Courses)
+		//		.UsingEntity(j =>
 				
-					j.ToTable("StudentCourses")
+		//			j.ToTable("StudentCourses")
 				
-				);
-		}
+		//		);
+
+  //          builder.Entity<OnlineCourse>()
+  //              .HasMany(p => p.students)
+  //              .WithMany(u => u.onlineCourses)
+  //              .UsingEntity(j =>
+
+  //                  j.ToTable("StudentOnlineCourses")
+
+  //              );
+
+  //          builder.Entity<Book>()
+  //              .HasMany(p => p.students)
+  //              .WithMany(u => u.Books)
+  //              .UsingEntity(j =>
+
+  //                  j.ToTable("StudentBooks")
+
+  //              );
+
+  //      }
 
 
 

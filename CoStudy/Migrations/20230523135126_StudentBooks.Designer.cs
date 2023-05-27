@@ -4,6 +4,7 @@ using CoStudy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoStudy.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230523135126_StudentBooks")]
+    partial class StudentBooks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace CoStudy.Migrations
 
                     b.HasIndex("studentsId");
 
-                    b.ToTable("ApplicationUserBook");
+                    b.ToTable("StudentBooks", (string)null);
                 });
 
             modelBuilder.Entity("ApplicationUserCourse", b =>
@@ -49,7 +52,7 @@ namespace CoStudy.Migrations
 
                     b.HasIndex("studentsId");
 
-                    b.ToTable("ApplicationUserCourse");
+                    b.ToTable("StudentCourses", (string)null);
                 });
 
             modelBuilder.Entity("ApplicationUserOnlineCourse", b =>
@@ -64,7 +67,7 @@ namespace CoStudy.Migrations
 
                     b.HasIndex("studentsId");
 
-                    b.ToTable("ApplicationUserOnlineCourse");
+                    b.ToTable("StudentOnlineCourses", (string)null);
                 });
 
             modelBuilder.Entity("BookSkill", b =>
@@ -90,16 +93,8 @@ namespace CoStudy.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("Books_Ids")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Courses_Ids")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -134,10 +129,6 @@ namespace CoStudy.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("OnlineCourses_Ids")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
