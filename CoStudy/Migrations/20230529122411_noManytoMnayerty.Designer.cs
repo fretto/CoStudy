@@ -4,6 +4,7 @@ using CoStudy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoStudy.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230529122411_noManytoMnayerty")]
+    partial class noManytoMnayerty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,6 +128,9 @@ namespace CoStudy.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("BookDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -132,6 +138,8 @@ namespace CoStudy.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Book");
                 });
@@ -144,6 +152,9 @@ namespace CoStudy.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseId"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("CourseName")
                         .HasColumnType("nvarchar(max)");
 
@@ -151,6 +162,8 @@ namespace CoStudy.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CourseId");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("UniCourses");
                 });
@@ -162,6 +175,9 @@ namespace CoStudy.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OnlineCourseId"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CourseDescription")
                         .HasColumnType("nvarchar(max)");
@@ -179,6 +195,8 @@ namespace CoStudy.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OnlineCourseId");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("OnlineCourses");
                 });
@@ -361,6 +379,27 @@ namespace CoStudy.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("CoStudy.Models.Book", b =>
+                {
+                    b.HasOne("CoStudy.Models.ApplicationUser", null)
+                        .WithMany("Books")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("CoStudy.Models.Course", b =>
+                {
+                    b.HasOne("CoStudy.Models.ApplicationUser", null)
+                        .WithMany("Courses")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("CoStudy.Models.OnlineCourse", b =>
+                {
+                    b.HasOne("CoStudy.Models.ApplicationUser", null)
+                        .WithMany("onlineCourses")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
             modelBuilder.Entity("CoStudy.Models.Portfolio", b =>
                 {
                     b.HasOne("CoStudy.Models.ApplicationUser", null)
@@ -428,9 +467,15 @@ namespace CoStudy.Migrations
 
             modelBuilder.Entity("CoStudy.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Books");
+
+                    b.Navigation("Courses");
+
                     b.Navigation("Portfolios");
 
                     b.Navigation("RecommendedCourses");
+
+                    b.Navigation("onlineCourses");
                 });
 #pragma warning restore 612, 618
         }

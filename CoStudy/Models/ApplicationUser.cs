@@ -13,22 +13,30 @@ namespace CoStudy.Models
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 
-        public Major major { get; set; }  
+        public Major major { get; set; }
+
         public string? LinkedIn { get; set; }
         public string? GitHub { get; set; }
         public string? Website { get; set; }
 
 
         //for many to many relationships
-        public ICollection<Course>? Courses { get; set; }
-        public ICollection<OnlineCourse>? onlineCourses { get; set; }
-        public ICollection<Book>? Books { get; set; }
 
 
         //to store the courses id's seperated by commas
         public string Courses_Ids { get; set; } = "";
         public string OnlineCourses_Ids { get; set; } = "";
         public string Books_Ids { get; set; }= "";
+       // public string Interest { get; set; } = "";
+
+        public List<Portfolio>? Portfolios { get; set; }
+
+
+        //the returned recommended courses 
+
+        public List<RecommendedCourses>? RecommendedCourses { get; set; }
+
+        
 
 
 

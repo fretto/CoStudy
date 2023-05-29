@@ -27,6 +27,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(Options =>
 
 
     //here we can write the password and email and user name constraints 
+    
 
 
 

@@ -26,19 +26,29 @@
 
             @if (User.Identity!.IsAuthenticated)
             {
-                <a asp-action="Portfolio" asp-controller="Account" asp-route-name="@User.Identity.Name"  style=" color:white;
-    background-color: #366CC7;
-    border-radius: 25px;">@User.Identity.Name</a>
-                <a asp-action="Logout" asp-controller="Account">LOGOUT</a>
-
-                <a href="#about">ABOUT</a>
-                <a href="#services">SERVICES</a>
-                <a asp-action="Index" asp-controller="Home">HOME</a>
                 if (User.IsInRole("Admin"))
                 {
                     <a asp-action="Index" asp-controller="Dashboard" asp-area="Adminstrator" style=" color:white;
     background-color: #366CC7;
     border-radius: 25px;">Dashboard</a>
+                    <a asp-action="Logout" asp-controller="Account">LOGOUT</a>
+
+                    <a href="#about">ABOUT</a>
+                    <a href="#services">SERVICES</a>
+                    <a asp-action="Index" asp-controller="Home">HOME</a>
+
+                }
+                else
+                {
+                    <a asp-action="Portfolio" asp-controller="Account" asp-route-name="@User.Identity.Name" style=" color:white;
+    background-color: #366CC7;
+    border-radius: 25px;">@User.Identity.Name</a>
+                    <a asp-action="Logout" asp-controller="Account">LOGOUT</a>
+
+                    <a href="#about">ABOUT</a>
+                    <a href="#services">SERVICES</a>
+                    <a asp-action="Index" asp-controller="Home">HOME</a>
+
 
                 }
 

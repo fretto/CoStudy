@@ -15,6 +15,8 @@ namespace CoStudy.Models
 
         //duration_rating
 
+      //  public string? Category { get; set; }//category of every course
+
         public string? Level { get; set; }
 
         public int? ReviewCount { get; set; }
@@ -28,8 +30,6 @@ namespace CoStudy.Models
 
         //}
 
-        public ICollection<Skill>? Skill { get; set; }
-        public ICollection<ApplicationUser>? students { get; set; }
 
 
 

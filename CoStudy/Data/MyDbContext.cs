@@ -13,45 +13,25 @@ namespace CoStudy.Data
 
         }
 
-		//protected override void OnModelCreating(ModelBuilder builder)
-		//{
-		//	base.OnModelCreating(builder);
-
-		//	builder.Entity<Course>()
-		//		.HasMany(p => p.students)
-		//		.WithMany(u => u.Courses)
-		//		.UsingEntity(j =>
-				
-		//			j.ToTable("StudentCourses")
-				
-		//		);
-
-  //          builder.Entity<OnlineCourse>()
-  //              .HasMany(p => p.students)
-  //              .WithMany(u => u.onlineCourses)
-  //              .UsingEntity(j =>
-
-  //                  j.ToTable("StudentOnlineCourses")
-
-  //              );
-
-  //          builder.Entity<Book>()
-  //              .HasMany(p => p.students)
-  //              .WithMany(u => u.Books)
-  //              .UsingEntity(j =>
-
-  //                  j.ToTable("StudentBooks")
-
-  //              );
-
-  //      }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            
+            builder.Entity<RecommendedCourses>().HasKey(e => new { e.Id ,e.UserId});
+            builder.Entity<Portfolio>().HasKey(e => new { e.SkillId, e.SkillName,e.UserId });
 
 
 
-		public DbSet<Course> UniCourses { get; set; }   
-        public DbSet<Skill> Skills { get; set; }
+
+        }
+
+
+
+        public DbSet<Course> UniCourses { get; set; }   
+        public DbSet<Portfolio> Skills { get; set; }
         public DbSet<OnlineCourse> OnlineCourses { get; set; }
         public DbSet<CoStudy.Models.Book> Book { get; set; } = default!;
+		public DbSet<RecommendedCourses> RecommendedCourses { get; set; }
 
 
     }

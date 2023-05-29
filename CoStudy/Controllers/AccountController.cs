@@ -1,6 +1,7 @@
 ﻿using CoStudy.Data;
 using CoStudy.Models;
 using CoStudy.Models.ViewModels;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,6 +18,7 @@ namespace CoStudy.Controllers
         private SignInManager<ApplicationUser> SignInManager;
         private MyDbContext _context;
         private readonly ILogger<HomeController> _logger;
+        private readonly HttpClient? _httpClient;
 
 
         public AccountController(ILogger<HomeController> logger, UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _SignInManager, MyDbContext context)
@@ -175,12 +177,12 @@ namespace CoStudy.Controllers
 
 
 
-            var user = await _context.Users.Include(x => x.Courses).FirstOrDefaultAsync(u => u.UserName == name);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == name);
             ViewBag.firstname = user!.FirstName;
             ViewBag.lastname = user.LastName;
 
 
-            ViewBag.courses = user!.Courses!.ToList();
+           // ViewBag.courses = user!.Courses!.ToList();
 
 
             return View(user);
@@ -258,9 +260,10 @@ namespace CoStudy.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> EditPortfolio([FromBody]ManagePortfolioDTO model)
+        [Route("Account/EditPortfolio")]
+        public async Task<IActionResult> EditPortfolio([FromBody] ManagePortfolioDTO model)
         {
-        
+
             if (ModelState.IsValid)
             {
 
@@ -282,6 +285,7 @@ namespace CoStudy.Controllers
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
                     user.Website = model.Website;
+                    user.PhoneNumber = model.Phone;
 
 
 
@@ -290,83 +294,139 @@ namespace CoStudy.Controllers
 
 
 
+                    ///api??
+                    ///
+                    //void private method
+
+                    //i willput the values into a body of a api request then recieves the
+                    //api response with a body containing the recommended courses Id's and save them in the user table
+                    //
+
+                    var result = new { message = "success" };
+
+                    return Ok(result);
+
+
+
+
+
+
 
                 }
-                return RedirectToAction("Index", "Home");
 
             }
-            return View();
+            return View(model);
 
 
-
-
-            //     }
-
-
-            //     [HttpPost]
-
-            //     public async Task<IActionResult> Test()
-            //     {
-
-
-            //         var user = await userManager.FindByNameAsync("AyaZ");
-
-            //         Course course = new Course
-            //         {
-            //             CourseName = "sql",
-            //             Description = "database management",
-
-
-            //         };
-
-            //         user.Courses.Add(course);
-
-            //         return RedirectToAction("Index", "Home");
-
-            //     }
-
-            //[HttpGet]
-
-            //public IActionResult ForgotPassword()
-            //{
-
-            //    return View();
-
-            //}
-
-
-            //[HttpPost]
-            //public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
-            //{
-
-            //    if (ModelState.IsValid)
-            //    {
-
-
-            //        var user = await userManager.FindByEmailAsync(model.Email!);
-
-
-            //        if (user != null )
-            //        {
-
-            //            var token = await userManager.GeneratePasswordResetTokenAsync(user!);
-
-
-
-            //            var passwordResetLink = Url.Action("ResetPassword", "Account", new { email = model.Email, token = token }, Request.Scheme);
-
-            //            //_logger.Log(LogLevel.Warning, passwordResetLink);
-
-            //            return View("ForgotPasswordConfirmation");
-
-            //        }
-
-            //        return View("ForgotPasswordConfirmation");
-
-
-            //    }
-            //    return View(model);
-            //}
         }
+
+
+        [HttpGet("/courses")]//endpoint
+        public async Task< IActionResult> YourEndpoint()
+        {
+            var user = await userManager.FindByEmailAsync("ahmad@yahoo.com");
+
+            if(user==null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+
+            return Ok(user.Courses_Ids);
+
+            }
+        }
+
+        //test to consume
+        [HttpGet]
+           public  IActionResult consume()
+        {
+
+            var _httpClient = new HttpClient();
+            HttpResponseMessage response =  _httpClient.GetAsync("http://127.0.0.1:8000/batool/").Result;
+
+            if(response.IsSuccessStatusCode)
+            {
+
+
+                string result =  response.Content.ReadAsStringAsync().Result;
+                return Ok(result);
+
+
+            }
+            return BadRequest();
+
+
+        }
+
+        //     }
+
+
+        //     [HttpPost]
+
+        //     public async Task<IActionResult> Test()
+        //     {
+
+
+        //         var user = await userManager.FindByNameAsync("AyaZ");
+
+        //         Course course = new Course
+        //         {
+        //             CourseName = "sql",
+        //             Description = "database management",
+
+
+        //         };
+
+        //         user.Courses.Add(course);
+
+        //         return RedirectToAction("Index", "Home");
+
+        //     }
+
+        //[HttpGet]
+
+        //public IActionResult ForgotPassword()
+        //{
+
+        //    return View();
+
+        //}
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        //{
+
+        //    if (ModelState.IsValid)
+        //    {
+
+
+        //        var user = await userManager.FindByEmailAsync(model.Email!);
+
+
+        //        if (user != null )
+        //        {
+
+        //            var token = await userManager.GeneratePasswordResetTokenAsync(user!);
+
+
+
+        //            var passwordResetLink = Url.Action("ResetPassword", "Account", new { email = model.Email, token = token }, Request.Scheme);
+
+        //            //_logger.Log(LogLevel.Warning, passwordResetLink);
+
+        //            return View("ForgotPasswordConfirmation");
+
+        //        }
+
+        //        return View("ForgotPasswordConfirmation");
+
+
+        //    }
+        //    return View(model);
+        //}
     }
+    
 }

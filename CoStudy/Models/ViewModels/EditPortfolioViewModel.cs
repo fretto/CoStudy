@@ -13,6 +13,8 @@ namespace CoStudy.Models.ViewModels
         public string? LinkedIn { get; set; }
         public string? GitHub { get; set; }
         public string? Website { get; set; }
+        public string? Phone { get; set; }
+
 
 
         //drop down list
@@ -43,6 +45,8 @@ namespace CoStudy.Models.ViewModels
         public string? LinkedIn { get; set; }
         public string? GitHub { get; set; }
         public string? Website { get; set; }
+
+        public string? Phone { get; set; }
         public int[]? Courses_Ids { get; set; }
         public int[]? OnlineCourses_Ids { get; set; }
         public int[]? Books_Ids { get; set; }

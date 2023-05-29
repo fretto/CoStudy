@@ -4,6 +4,7 @@ using CoStudy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoStudy.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230529121001_modifications")]
+    partial class modifications
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,72 @@ namespace CoStudy.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ApplicationUserBook", b =>
+                {
+                    b.Property<int>("BooksId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("studentsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("BooksId", "studentsId");
+
+                    b.HasIndex("studentsId");
+
+                    b.ToTable("ApplicationUserBook");
+                });
+
+            modelBuilder.Entity("ApplicationUserCourse", b =>
+                {
+                    b.Property<int>("CoursesCourseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("studentsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CoursesCourseId", "studentsId");
+
+                    b.HasIndex("studentsId");
+
+                    b.ToTable("ApplicationUserCourse");
+                });
+
+            modelBuilder.Entity("ApplicationUserOnlineCourse", b =>
+                {
+                    b.Property<int>("onlineCoursesOnlineCourseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("studentsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("onlineCoursesOnlineCourseId", "studentsId");
+
+                    b.HasIndex("studentsId");
+
+                    b.ToTable("ApplicationUserOnlineCourse");
+                });
+
+            modelBuilder.Entity("BookPortfolio", b =>
+                {
+                    b.Property<int>("BooksId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillsSkillId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SkillsSkillName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("SkillsUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BooksId", "SkillsSkillId", "SkillsSkillName", "SkillsUserId");
+
+                    b.HasIndex("SkillsSkillId", "SkillsSkillName", "SkillsUserId");
+
+                    b.ToTable("BookPortfolio");
+                });
 
             modelBuilder.Entity("CoStudy.Models.ApplicationUser", b =>
                 {
@@ -53,6 +122,10 @@ namespace CoStudy.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GitHub")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Interest")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -228,6 +301,27 @@ namespace CoStudy.Migrations
                     b.ToTable("RecommendedCourses");
                 });
 
+            modelBuilder.Entity("CoursePortfolio", b =>
+                {
+                    b.Property<int>("CoursesCourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillsSkillId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SkillsSkillName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("SkillsUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CoursesCourseId", "SkillsSkillId", "SkillsSkillName", "SkillsUserId");
+
+                    b.HasIndex("SkillsSkillId", "SkillsSkillName", "SkillsUserId");
+
+                    b.ToTable("CoursePortfolio");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -361,6 +455,87 @@ namespace CoStudy.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("OnlineCoursePortfolio", b =>
+                {
+                    b.Property<int>("onlineCoursesOnlineCourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SkillName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("SkillUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("onlineCoursesOnlineCourseId", "SkillId", "SkillName", "SkillUserId");
+
+                    b.HasIndex("SkillId", "SkillName", "SkillUserId");
+
+                    b.ToTable("OnlineCoursePortfolio");
+                });
+
+            modelBuilder.Entity("ApplicationUserBook", b =>
+                {
+                    b.HasOne("CoStudy.Models.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoStudy.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("studentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ApplicationUserCourse", b =>
+                {
+                    b.HasOne("CoStudy.Models.Course", null)
+                        .WithMany()
+                        .HasForeignKey("CoursesCourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoStudy.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("studentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ApplicationUserOnlineCourse", b =>
+                {
+                    b.HasOne("CoStudy.Models.OnlineCourse", null)
+                        .WithMany()
+                        .HasForeignKey("onlineCoursesOnlineCourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoStudy.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("studentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BookPortfolio", b =>
+                {
+                    b.HasOne("CoStudy.Models.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoStudy.Models.Portfolio", null)
+                        .WithMany()
+                        .HasForeignKey("SkillsSkillId", "SkillsSkillName", "SkillsUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CoStudy.Models.Portfolio", b =>
                 {
                     b.HasOne("CoStudy.Models.ApplicationUser", null)
@@ -373,6 +548,21 @@ namespace CoStudy.Migrations
                     b.HasOne("CoStudy.Models.ApplicationUser", null)
                         .WithMany("RecommendedCourses")
                         .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("CoursePortfolio", b =>
+                {
+                    b.HasOne("CoStudy.Models.Course", null)
+                        .WithMany()
+                        .HasForeignKey("CoursesCourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoStudy.Models.Portfolio", null)
+                        .WithMany()
+                        .HasForeignKey("SkillsSkillId", "SkillsSkillName", "SkillsUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -422,6 +612,21 @@ namespace CoStudy.Migrations
                     b.HasOne("CoStudy.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OnlineCoursePortfolio", b =>
+                {
+                    b.HasOne("CoStudy.Models.OnlineCourse", null)
+                        .WithMany()
+                        .HasForeignKey("onlineCoursesOnlineCourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoStudy.Models.Portfolio", null)
+                        .WithMany()
+                        .HasForeignKey("SkillId", "SkillName", "SkillUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
