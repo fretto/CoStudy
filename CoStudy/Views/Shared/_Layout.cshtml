@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity;
+ @inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>@ViewData["Title"] - CoStudy</title>
@@ -26,6 +29,15 @@
 
             @if (User.Identity!.IsAuthenticated)
             {
+
+
+                
+    var user = await UserManager.GetUserAsync(User);
+    var userId = user?.Id;
+
+
+
+
                 if (User.IsInRole("Admin"))
                 {
                     <a asp-action="Index" asp-controller="Dashboard" asp-area="Adminstrator" style=" color:white;
@@ -40,7 +52,7 @@
                 }
                 else
                 {
-                    <a asp-action="Portfolio" asp-controller="Account" asp-route-name="@User.Identity.Name" style=" color:white;
+                    <a asp-action="Portfolio" asp-controller="Account" asp-route-id="@userId" style=" color:white;
     background-color: #366CC7;
     border-radius: 25px;">@User.Identity.Name</a>
                     <a asp-action="Logout" asp-controller="Account">LOGOUT</a>

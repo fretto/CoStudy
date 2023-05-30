@@ -152,10 +152,10 @@ namespace CoStudy.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Portfolio(string? name)
+        public async Task<IActionResult> Portfolio(string? id)
         {
 
-            if (string.IsNullOrEmpty(name))
+            if (id==null)
             {
 
                 TempData["warning"] = "*Please login or sign up first";
@@ -165,7 +165,7 @@ namespace CoStudy.Controllers
 
             }
 
-            var userr = await userManager.FindByNameAsync(name!);
+            var userr = await userManager.FindByIdAsync(id);
 
             if (userr == null)
             {
@@ -177,12 +177,19 @@ namespace CoStudy.Controllers
 
 
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == name);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null)
+            {
+                TempData["warning"] = "Please login or sign up first";
+
+                return RedirectToAction("Index", "Home");
+
+            }
             ViewBag.firstname = user!.FirstName;
             ViewBag.lastname = user.LastName;
 
 
-           // ViewBag.courses = user!.Courses!.ToList();
+            // ViewBag.courses = user!.Courses!.ToList();
 
 
             return View(user);
@@ -217,6 +224,7 @@ namespace CoStudy.Controllers
                 GitHub = user.GitHub,
                 LinkedIn = user.LinkedIn,
                 Website = user.Website
+
 
 
 
@@ -260,8 +268,8 @@ namespace CoStudy.Controllers
 
 
         [HttpPost]
-        [Route("Account/EditPortfolio")]
-        public async Task<IActionResult> EditPortfolio([FromBody] ManagePortfolioDTO model)
+        //[Route("Account/EditPortfolio")]
+        public async Task<IActionResult> EditPortfolio(ManagePortfolioDTO model)
         {
 
             if (ModelState.IsValid)
@@ -269,7 +277,7 @@ namespace CoStudy.Controllers
 
                 if (model.UserId == null)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return BadRequest();
                 }
 
                 var user = await userManager.FindByIdAsync(model.UserId);
@@ -304,8 +312,9 @@ namespace CoStudy.Controllers
 
                     var result = new { message = "success" };
 
-                    return Ok(result);
 
+                    //return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Portfolio", "Account", new { id = model.UserId});
 
 
 
@@ -322,35 +331,35 @@ namespace CoStudy.Controllers
 
 
         [HttpGet("/courses")]//endpoint
-        public async Task< IActionResult> YourEndpoint()
+        public async Task<IActionResult> YourEndpoint()
         {
             var user = await userManager.FindByEmailAsync("ahmad@yahoo.com");
 
-            if(user==null)
+            if (user == null)
             {
                 return BadRequest();
             }
             else
             {
 
-            return Ok(user.Courses_Ids);
+                return Ok(user.Courses_Ids);
 
             }
         }
 
         //test to consume
         [HttpGet]
-           public  IActionResult consume()
+        public IActionResult consume()
         {
 
             var _httpClient = new HttpClient();
-            HttpResponseMessage response =  _httpClient.GetAsync("http://127.0.0.1:8000/batool/").Result;
+            HttpResponseMessage response = _httpClient.GetAsync("http://127.0.0.1:8000/batool/").Result;
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
 
 
-                string result =  response.Content.ReadAsStringAsync().Result;
+                string result = response.Content.ReadAsStringAsync().Result;
                 return Ok(result);
 
 
@@ -428,5 +437,5 @@ namespace CoStudy.Controllers
         //    return View(model);
         //}
     }
-    
+
 }

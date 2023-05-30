@@ -18,7 +18,11 @@ builder.Services.AddDbContext<MyDbContext>(options =>//same as the previous proj
 
 });
 
-
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+});
 
 
 
