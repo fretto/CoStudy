@@ -21,8 +21,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/editstyles.css">
 
-    
-   
+
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -30,7 +30,7 @@
 
 
 
-   
+
 
 </head>
 <body>
@@ -44,10 +44,10 @@
         <div class="navbar top">
 
 
-           @* @{
+            @* @{
 
-                var first = Model.FirstName;
-                var second = Model.LastName;
+            var first = Model.FirstName;
+            var second = Model.LastName;
 
             }*@
             @if (User.Identity!.IsAuthenticated)
@@ -89,77 +89,73 @@
         </div>
     </div>
     <!-- Modal for adding a new skill -->
-    <div class="modal fade" id="addSkillModal" tabindex="-1" role="dialog" aria-labelledby="addSkillModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addSkillModalLabel">Add New Skill</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container mt-4 space">
-                        <form action="" method="get">
+    <form method="post" asp-action="EditPortfolio" asp-controller="Account" class="form-horizontal" id="myForm">
+        <div class="modal fade" id="addSkillModal" tabindex="-1" role="dialog" aria-labelledby="addSkillModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addSkillModalLabel">Add New Skill</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container mt-4 space">
                             <div class="form-group">
                                 <label for="skills">Select Skills:</label>
-                                <select id="skills" name="skills[]" class="selectpicker form-control" multiple data-live-search="true" data-size="5">
+                                <select id="skills" name="Skills_Ids" class="selectpicker form-control" multiple data-live-search="true" data-size="5">
                                     <option value="default" selected disabled>skills</option>
                                     <!--FOR LOOP ON SKILLS-->
                                     <option value="html">test</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!----------start of navigation card-------->
-    <div class="container mt-4 space">
-        <div class="card">
-            <!----card header---->
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#tab1">Personal Info</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#tab2">University Courses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#tab3">Online Courses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#tab4">Books</a>
-                    </li>
-                </ul>
-            </div>
-            <!----end of card header---->
-            <div class="card-body">
-                <form  method="post" asp-action="EditPortfolio" asp-controller="Account" class="form-horizontal" id="myForm">
+        <!----------start of navigation card-------->
+        <div class="container mt-4 space">
+            <div class="card">
+                <!----card header---->
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tab1">Personal Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab2">University Courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab3">Online Courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab4">Books</a>
+                        </li>
+                    </ul>
+                </div>
+                <!----end of card header---->
+                <div class="card-body">
 
                     <input type="hidden" name="UserId" value="@Model.UserId" />
-@*                    <input type="hidden" name="UserName" value="@Model.UserName" />
-*@
+                    @*                    <input type="hidden" name="UserName" value="@Model.UserName" />
+                    *@
                     <div class="tab-content">
                         <!----start of tab1 [personal info]---->
                         <div class="tab-pane fade show active" id="tab1">
-                           @* <div class="pic-holder">
-                                <!-- profile pic -->
-                                <img id="profilePic" class="pic" src="cs2.png">
-                                <input class="uploadProfileInput" type="file" name="profile_pic" id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
-                                <label for="newProfilePhoto" class="upload-file-block">
-                                    <div class="text-center">
-                                        <div class="mb-2">
-                                            <i class="fa fa-camera fa-2x"></i>
-                                        </div>
-                                        <div class="text-uppercase"> Update <br /> Profile Photo</div>
-                                    </div>
-                                </label>
+                            @* <div class="pic-holder">
+                            <!-- profile pic -->
+                            <img id="profilePic" class="pic" src="cs2.png">
+                            <input class="uploadProfileInput" type="file" name="profile_pic" id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
+                            <label for="newProfilePhoto" class="upload-file-block">
+                            <div class="text-center">
+                            <div class="mb-2">
+                            <i class="fa fa-camera fa-2x"></i>
+                            </div>
+                            <div class="text-uppercase"> Update <br /> Profile Photo</div>
+                            </div>
+                            </label>
                             </div>*@
                             </hr>
                             <div class="panel panel-default">
@@ -185,23 +181,23 @@
                                             <input type="text" name="Major" class="form-control" value="">
                                         </div>
                                     </div>
-                                   @* <div class="form-group">
-                                        <label class="col-sm-2"> University</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" name="uni" class="form-control" value="">
-                                        </div>
+                                    @* <div class="form-group">
+                                    <label class="col-sm-2"> University</label>
+                                    <div class="col-sm-10">
+                                    <input type="text" name="uni" class="form-control" value="">
+                                    </div>
                                     </div>*@
                                     <div class="form-group">
                                         <label class="col-sm-2">Website</label>
                                         <div class="col-sm-10">
-                                            <input type="url" name="Website" class="form-control" value="">
+                                            <input type="test" name="Website" class="form-control" value="">
                                         </div>
                                     </div>
-                                   @* <div class="form-group">
-                                        <label class="col-sm-2">E-mail address</label>
-                                        <div class="col-sm-10">
-                                            <input type="email" name="email" class="form-control" value="">
-                                        </div>
+                                    @* <div class="form-group">
+                                    <label class="col-sm-2">E-mail address</label>
+                                    <div class="col-sm-10">
+                                    <input type="email" name="email" class="form-control" value="">
+                                    </div>
                                     </div>*@
                                     <div class="form-group">
                                         <label class="col-sm-2">Github</label>
@@ -238,14 +234,13 @@
                                     <div>
 
                                         <!--LOOP ON UNIVERSITY COURSES ALREADY SUBMITTED-->
-
-                                        @foreach(var selectedCourse in Model.SelectedCourses)
+                                        @foreach (var selectedCourse in Model.SelectedCourses)
                                         {
-                                           <div class="course-box">
-                                            <h5> @selectedCourse.CourseName <span class="delete-btn">×</span></h5>
-                                        </div>  
+                                            <div class="course-box">
+                                                <h5> @selectedCourse.CourseName <span class="delete-btn">×</span></h5>
+                                            </div>
                                         }
-                                       
+
                                         <!--END FOR LOOP-->
 
                                     </div>
@@ -259,7 +254,8 @@
                                                 <select id="onCourses" name="Courses_Ids" class="col-sm-10 selectpicker" data-live-search="true" data-size="5">
                                                     <option value="default" disabled selected>Select a course</option>
 
-                                                    @foreach(var course in Model.Courses){
+                                                    @foreach (var course in Model.Courses)
+                                                    {
 
                                                         <option value="@course.CourseId">@course.CourseName</option>
 
@@ -268,21 +264,21 @@
                                                 </select>
                                             </div>
 
-                                          @*  <div class="form-group col-md-2">
-                                                <label for="mark">Mark:</label>
-                                                <select class="form-control" name="mark[]" required>
-                                                    <option value="default" disabled selected>Select a mark</option>
-                                                    <option value="A">A</option>
-                                                    <option value="Am">A-</option>
-                                                    <option value="B+">B+</option>
-                                                    <option value="B">B</option>
-                                                    <option value="B-">B-</option>
-                                                    <option value="C+">C+</option>
-                                                    <option value="C-">C-</option>
-                                                    <option value="C">C</option>
-                                                    <option value="D+">D+</option>
-                                                    <option value="D">D</option>
-                                                </select>
+                                            @*  <div class="form-group col-md-2">
+                                            <label for="mark">Mark:</label>
+                                            <select class="form-control" name="mark" required>
+                                            <option value="default" disabled selected>Select a mark</option>
+                                            <option value="A">A</option>
+                                            <option value="Am">A-</option>
+                                            <option value="B+">B+</option>
+                                            <option value="B">B</option>
+                                            <option value="B-">B-</option>
+                                            <option value="C+">C+</option>
+                                            <option value="C-">C-</option>
+                                            <option value="C">C</option>
+                                            <option value="D+">D+</option>
+                                            <option value="D">D</option>
+                                            </select>
                                             </div>*@
                                         </div>
                                     </div>
@@ -305,14 +301,13 @@
                                     <div>
 
                                         <!--LOOP ON ONLINE COURSES ALREADY SUBMITTED-->
-
-                                        @foreach(var selectedCourse in Model.SelectedOnlineCourses)
+                                        @foreach (var selectedCourse in Model.SelectedOnlineCourses)
                                         {
-                                           <div class="course-box">
-                                            <h5>@selectedCourse.CourseTitle <span class="delete-btn">×</span></h5>
-                                        </div>  
+                                            <div class="course-box">
+                                                <h5>@selectedCourse.CourseTitle <span class="delete-btn">×</span></h5>
+                                            </div>
                                         }
-                                       
+
 
                                     </div>
 
@@ -321,7 +316,7 @@
                                         <select id="onCourses" name="OnlineCourses_Ids" class="col-sm-10 selectpicker" data-live-search="true" multiple data-size="5">
                                             <option value="default" selected disabled>Courses</option>
                                             <!--FOR LOOP ON COURSES-->
-                                            @foreach( var course in Model.OnlineCourses)
+                                            @foreach (var course in Model.OnlineCourses)
                                             {
                                                 <option value="@course.OnlineCourseId">@course.CourseTitle</option>
 
@@ -364,21 +359,22 @@
                                     </div>
                                     <!--***************end edit 2*****************-->
                                 </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-10 col-sm-offset-2">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                        <button type="reset" class="btn btn-default">Cancel</button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <!--end of tab4-->
+
+                        <div class="form-group">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="reset" class="btn btn-default">Cancel</button>
+                            </div>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
+
     <!----------end of navigation card-------->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -431,7 +427,7 @@
             courseSelect.setAttribute('data-live-search', 'true');
             courseSelect.setAttribute('data-size', '5');
             courseSelect.className = 'form-control';
-            courseSelect.name = 'onCourses[]';
+            courseSelect.name = 'Courses_Ids';
             courseSelect.required = true;
 
 
@@ -474,7 +470,7 @@
 
             const markSelect = document.createElement('select');
             markSelect.className = 'form-control';
-            markSelect.name = 'mark[]';
+            markSelect.name = 'mark';
             markSelect.required = true;
 
             const markOptionDefault = document.createElement('option');
@@ -542,7 +538,7 @@
         const form = document.getElementById('myForm');
 
         form.addEventListener('submit', function (event) {
-          //  event.preventDefault(); // Prevent the form from submitting normally
+            //  event.preventDefault(); // Prevent the form from submitting normally
 
             // Get the form data
             const formData = new FormData(form);
@@ -551,11 +547,11 @@
             const jsonData = {};
 
             for (const [name, value] of formData.entries()) {
-                if (jsonData[name]) {
-                    if (Array.isArray(jsonData[name])) {
-                        jsonData[name].push(value);
+                if (name === 'Books_Ids' || name === 'Courses_Ids' || name === 'OnlineCourses_Ids' || name === 'Skills_Ids') {
+                    if (jsonData[name]) {
+                        jsonData[name].push(parseInt(value));
                     } else {
-                        jsonData[name] = [jsonData[name], value];
+                        jsonData[name] = [parseInt(value)];
                     }
                 } else {
                     jsonData[name] = value;
@@ -569,8 +565,8 @@
                 },
                 body: JSON.stringify(jsonData)
             })
-                .then(response =>response.json()) 
-                .then(data=>  {
+                .then(response => response.json())
+                .then(data => {
 
 
                     // Handle the response from the backend API

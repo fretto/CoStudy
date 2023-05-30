@@ -1,4 +1,7 @@
-﻿﻿@{
+﻿@using Microsoft.AspNetCore.Identity;
+@inject UserManager<ApplicationUser> UserManager
+
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -10,6 +13,10 @@
     <div class="alert alert-warning" role="alert" style="width:30%;text-align:center;margin-left:380px;">@TempData["warning"]</div>
 }
 
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var userId = user?.Id;
+    }
 
 
 <div class="container">
@@ -27,7 +34,7 @@
     <br> <br>
     <div>
         <a class="button-81" role="button" asp-action="AllCourses1" asp-controller="Home">View Courses</a>
-        <a class="button-81" role="button" asp-action="Portfolio" asp-controller="Account" asp-route-name="@User.Identity.Name">Edit Portfolio</a>
+        <a class="button-81" role="button" asp-action="Portfolio" asp-controller="Account" asp-route-id="@userId">Edit Portfolio</a>
     </div>
     <!--Our Services Section-->
     <div class="section" id="services">
@@ -48,7 +55,7 @@
                     So why wait?
                     Create your portfolio now!
                 </p>
-                <a asp-action="Portfolio" asp-controller="Account" asp-route-name="@User.Identity.Name" class="card-button">View Portfolio</a>
+                <a asp-action="Portfolio" asp-controller="Account" asp-route-id="@userId" class="card-button">View Portfolio</a>
             </div>
 
             <div class="card">

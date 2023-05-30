@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Collections;
 using System.Security.Policy;
+using System.Text;
 
 namespace CoStudy.Controllers
 {
@@ -300,21 +302,33 @@ namespace CoStudy.Controllers
                     _context.Update(user);//must update the user to take the new values
                     await _context.SaveChangesAsync();
 
-
-
-                    ///api??
-                    ///
                     //void private method
 
                     //i willput the values into a body of a api request then recieves the
                     //api response with a body containing the recommended courses Id's and save them in the user table
                     //
 
-                    var result = new { message = "success" };
+                    
+                    //here i created an anonymous object that contains the values
+                    //that will be sent in the requesr body
+                    ////////////////////////////////////////////////////////////
+                    
+                    var requestData = new
+                    {
+                        UserId=user.Id,
+                        CoursesIds = user.Courses_Ids,
+                        OnlineCoursesIds = user.OnlineCourses_Ids
+                    };
 
 
-                    //return RedirectToAction("Index", "Home");
-                    return RedirectToAction("Portfolio", "Account", new { id = model.UserId});
+                    var json = JsonConvert.SerializeObject(requestData);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+
+                    
+
+
+                  return RedirectToAction("Portfolio", "Account", new { id = model.UserId});
 
 
 
