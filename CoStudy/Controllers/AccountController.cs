@@ -237,11 +237,13 @@ namespace CoStudy.Controllers
             //these variables stores all the courses,online courses,books
             var courses = _context.UniCourses.ToList();
             var onlineCourses = _context.OnlineCourses.ToList();
-            var books = _context.Book.ToList();
+            var books = _context.Books.ToList();
+            var skills=_context.Skills.ToList();
 
             model.Courses = courses;
             model.OnlineCourses = onlineCourses;
             model.Books = books;
+            model.Skills = skills;
 
 
 
@@ -250,11 +252,13 @@ namespace CoStudy.Controllers
             model.Courses_Ids = !string.IsNullOrEmpty(user.Courses_Ids) ? Array.ConvertAll(user.Courses_Ids.Split(","), int.Parse) : new int[0];
             model.OnlineCourses_Ids = !string.IsNullOrEmpty(user.OnlineCourses_Ids) ? Array.ConvertAll(user.OnlineCourses_Ids.Split(","), int.Parse) : new int[0];
             model.Books_Ids = !string.IsNullOrEmpty(user.Books_Ids) ? Array.ConvertAll(user.Books_Ids.Split(","), int.Parse) : new int[0];
+            model.Skills_Ids = !string.IsNullOrEmpty(user.Skills_Ids) ? Array.ConvertAll(user.Skills_Ids.Split(","), int.Parse) : new int[0];
 
             //search in the all courses for courses that have the same course Id
             model.SelectedCourses = courses.Where(c => model.Courses_Ids.Contains(c.CourseId)).ToList();
             model.SelectedOnlineCourses = onlineCourses.Where(c => model.OnlineCourses_Ids.Contains(c.OnlineCourseId)).ToList();
             model.SelectedBooks = books.Where(c => model.Books_Ids.Contains(c.Id)).ToList();
+            model.SelectedSkills = skills.Where(c => model.Skills_Ids.Contains(c.SkillId)).ToList();
 
 
 
@@ -292,6 +296,7 @@ namespace CoStudy.Controllers
                     user.Courses_Ids = model.Courses_Ids != null && model.Courses_Ids.Length > 0 ? string.Join(",", model.Courses_Ids) : user.Courses_Ids;
                     user.OnlineCourses_Ids = model.OnlineCourses_Ids != null && model.OnlineCourses_Ids.Length > 0 ? string.Join(",", model.OnlineCourses_Ids) : user.OnlineCourses_Ids;
                     user.Books_Ids = model.Books_Ids != null && model.Books_Ids.Length > 0 ? string.Join(",", model.Books_Ids) : user.Books_Ids;
+                    user.Skills_Ids = model.Skills_Ids != null && model.Skills_Ids.Length > 0 ? string.Join(",", model.Skills_Ids) : user.Skills_Ids;
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
                     user.Website = model.Website;

@@ -6,9 +6,15 @@ namespace CoStudy.Models
     public class RecommendedCourses
     {
 
-        public int Id {get;set;}
+        [ForeignKey("User")]
+        public string? UserId { get; set; }
 
-        public int UserId { get; set; }
+        public ApplicationUser? User { get; set; }
+
+        public int OnlineCourseId { get; set; }
+        public OnlineCourse? OnlineCourse { get; set; }
+
+
 
         public bool Flag { get;set;}
 

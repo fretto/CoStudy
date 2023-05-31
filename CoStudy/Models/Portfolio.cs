@@ -7,10 +7,12 @@ namespace CoStudy.Models
     public class Portfolio
     {
 
+        [ForeignKey("User")]
+        public string? UserId { get; set; }
+        public ApplicationUser? User { get; set; }
+
         public int SkillId { get; set; }
-       
-        public int UserId { get; set; }
-        public string? SkillName { get; set; }//label
+        public Skill? Skill { get; set; }//label
         public double Scale { get; set; }
 
 

@@ -7,7 +7,7 @@ namespace CoStudy.Models.Enums
 
        
             [Display(Name = "Computer Science")]
-            bit,
+            CS,
             [Display(Name = "Business Information Technology")]
 
             BIT,

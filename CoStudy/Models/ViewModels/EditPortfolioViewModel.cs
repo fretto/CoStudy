@@ -23,17 +23,20 @@ namespace CoStudy.Models.ViewModels
         public List<Course>? Courses { get; set; }
         public List<OnlineCourse>? OnlineCourses { get; set; }
         public List<Book>? Books { get; set; }
+        public List<Skill>? Skills { get; set; }
 
 
         public int[]? Courses_Ids { get; set; } 
         public int[]? OnlineCourses_Ids { get; set; } 
         public int[]? Books_Ids { get; set; }
+        public int[]? Skills_Ids { get; set; }
 
 
 
         public List<Course>? SelectedCourses { get; set; }
         public List<OnlineCourse>? SelectedOnlineCourses { get; set; }
         public List<Book>? SelectedBooks { get; set; }
+        public List<Skill>? SelectedSkills { get; set; }
 
     }
     public class ManagePortfolioDTO
@@ -53,5 +56,6 @@ namespace CoStudy.Models.ViewModels
         public int[]? Courses_Ids { get; set; }
         public int[]? OnlineCourses_Ids { get; set; }
         public int[]? Books_Ids { get; set; }
+        public int[]? Skills_Ids { get; set; }
     }
 }

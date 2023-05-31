@@ -89,7 +89,7 @@ namespace CoStudy.Areas.Adminstrator.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SkillId,SkillName")] Portfolio skill)
+        public async Task<IActionResult> Edit(int id, [Bind("SkillId,SkillName")] Skill skill)
         {
             if (id != skill.SkillId)
             {

@@ -30,6 +30,7 @@ namespace CoStudy.Models
 
         //}
 
+        public string? Category { get; set; }
 
 
 

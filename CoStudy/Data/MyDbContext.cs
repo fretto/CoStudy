@@ -17,8 +17,8 @@ namespace CoStudy.Data
         {
             base.OnModelCreating(builder);
             
-            builder.Entity<RecommendedCourses>().HasKey(e => new { e.Id ,e.UserId});
-            builder.Entity<Portfolio>().HasKey(e => new { e.SkillId, e.SkillName,e.UserId });
+            builder.Entity<RecommendedCourses>().HasKey(e => new { e.OnlineCourseId ,e.UserId});
+            builder.Entity<Portfolio>().HasKey(e => new { e.SkillId, e.UserId });
 
 
 
@@ -28,10 +28,11 @@ namespace CoStudy.Data
 
 
         public DbSet<Course> UniCourses { get; set; }   
-        public DbSet<Portfolio> Skills { get; set; }
+        public DbSet<Skill> Skills { get; set; }
         public DbSet<OnlineCourse> OnlineCourses { get; set; }
-        public DbSet<CoStudy.Models.Book> Book { get; set; } = default!;
+        public DbSet<Book> Books { get; set; } = default!;
 		public DbSet<RecommendedCourses> RecommendedCourses { get; set; }
+        public DbSet<Portfolio> portfolios { get; set; }
 
 
     }

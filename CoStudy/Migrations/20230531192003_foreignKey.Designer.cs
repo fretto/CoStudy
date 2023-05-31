@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoStudy.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20230529122411_noManytoMnayerty")]
-    partial class noManytoMnayerty
+    [Migration("20230531192003_foreignKey")]
+    partial class foreignKey
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,6 +94,10 @@ namespace CoStudy.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Skills_Ids")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -128,9 +132,6 @@ namespace CoStudy.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("BookDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -139,9 +140,7 @@ namespace CoStudy.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("Book");
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("CoStudy.Models.Course", b =>
@@ -152,18 +151,10 @@ namespace CoStudy.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseId"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("CourseName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("CourseId");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("UniCourses");
                 });
@@ -176,8 +167,8 @@ namespace CoStudy.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OnlineCourseId"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CourseDescription")
                         .HasColumnType("nvarchar(max)");
@@ -196,8 +187,6 @@ namespace CoStudy.Migrations
 
                     b.HasKey("OnlineCourseId");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.ToTable("OnlineCourses");
                 });
 
@@ -206,44 +195,51 @@ namespace CoStudy.Migrations
                     b.Property<int>("SkillId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SkillName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ApplicationUserId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("Scale")
                         .HasColumnType("float");
 
-                    b.HasKey("SkillId", "SkillName", "UserId");
+                    b.HasKey("SkillId", "UserId");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Skills");
+                    b.ToTable("portfolios");
                 });
 
             modelBuilder.Entity("CoStudy.Models.RecommendedCourses", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("OnlineCourseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ApplicationUserId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Flag")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id", "UserId");
+                    b.HasKey("OnlineCourseId", "UserId");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("RecommendedCourses");
+                });
+
+            modelBuilder.Entity("CoStudy.Models.Skill", b =>
+                {
+                    b.Property<int>("SkillId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SkillId"));
+
+                    b.Property<string>("SkillName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SkillId");
+
+                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -379,39 +375,42 @@ namespace CoStudy.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CoStudy.Models.Book", b =>
-                {
-                    b.HasOne("CoStudy.Models.ApplicationUser", null)
-                        .WithMany("Books")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("CoStudy.Models.Course", b =>
-                {
-                    b.HasOne("CoStudy.Models.ApplicationUser", null)
-                        .WithMany("Courses")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("CoStudy.Models.OnlineCourse", b =>
-                {
-                    b.HasOne("CoStudy.Models.ApplicationUser", null)
-                        .WithMany("onlineCourses")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
             modelBuilder.Entity("CoStudy.Models.Portfolio", b =>
                 {
-                    b.HasOne("CoStudy.Models.ApplicationUser", null)
+                    b.HasOne("CoStudy.Models.Skill", "Skill")
+                        .WithMany()
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoStudy.Models.ApplicationUser", "User")
                         .WithMany("Portfolios")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Skill");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CoStudy.Models.RecommendedCourses", b =>
                 {
-                    b.HasOne("CoStudy.Models.ApplicationUser", null)
+                    b.HasOne("CoStudy.Models.OnlineCourse", "OnlineCourse")
+                        .WithMany()
+                        .HasForeignKey("OnlineCourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoStudy.Models.ApplicationUser", "User")
                         .WithMany("RecommendedCourses")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OnlineCourse");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -467,15 +466,9 @@ namespace CoStudy.Migrations
 
             modelBuilder.Entity("CoStudy.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Books");
-
-                    b.Navigation("Courses");
-
                     b.Navigation("Portfolios");
 
                     b.Navigation("RecommendedCourses");
-
-                    b.Navigation("onlineCourses");
                 });
 #pragma warning restore 612, 618
         }

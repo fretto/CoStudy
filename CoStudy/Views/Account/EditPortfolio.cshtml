@@ -105,8 +105,12 @@
                                 <label for="skills">Select Skills:</label>
                                 <select id="skills" name="Skills_Ids" class="selectpicker form-control" multiple data-live-search="true" data-size="5">
                                     <option value="default" selected disabled>skills</option>
+                                    @foreach(var skill in Model.Skills)
+                                    {
+                                        <option value="@skill.SkillId">@skill.SkillName</option>
+
+                                    }
                                     <!--FOR LOOP ON SKILLS-->
-                                    <option value="html">test</option>
                                 </select>
                             </div>
 
@@ -190,7 +194,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2">Website</label>
                                         <div class="col-sm-10">
-                                            <input type="test" name="Website" class="form-control" value="">
+                                            <input type="test" name="Website" class="form-control" value="@Model.Website">
                                         </div>
                                     </div>
                                     @* <div class="form-group">
@@ -597,8 +601,8 @@
 <footer>
     <a href="index.html"><img src="~/images/logo.png" alt="website-logo" width="160em" height="120em" /></a>
     <div class="navbar footernav">
-        <a href="#home">SIGN UP</a>
-        <a href="#login">LOG IN</a>
+        <a asp-action="Index" asp-controller="Home">SIGN UP</a>
+        <a asp-action="Login" asp-controller="Account">LOG IN</a>
         <a href="#about">ABOUT</a>
         <a href="#login">SERVICES</a>
     </div>
