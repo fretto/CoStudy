@@ -91,37 +91,15 @@
 <!--------------------------end of header------------------------------->
 
 
-@*@Model.Courses.Add(course);
-
-
-@{
-
-	Course course = new Course
-			{
-				CourseName = "sql",
-				Description = "database management system";
-	}
-
-
-}
-*@
-
-
-
-
-
-
-
-
-@*@foreach(var course in (List<Course>)ViewBag.courses)//for testingggg
+@*@foreach(var skill in Model.Portfolios)
 {
+	
+	<p>@skill.Skill.SkillName</p>
 
-	<ul>
-
-		<li> @course.CourseName</li>
-
-	</ul>
 }*@
+
+
+
 
 <body>
 	<div class="container">

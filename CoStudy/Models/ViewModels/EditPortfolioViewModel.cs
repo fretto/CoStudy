@@ -72,7 +72,7 @@ namespace CoStudy.Models.ViewModels
 	public class PythonRecommendedCoursesRes
 	{
 		public string UserID { get; set; } = "";
-		public int CourseId { get; set; }
+		public int OnlineCourseId { get; set; }
 		public bool Flag { get; set; }
 	}
 	public class PythonRequestBody

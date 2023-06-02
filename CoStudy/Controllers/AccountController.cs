@@ -186,7 +186,11 @@ namespace CoStudy.Controllers
 			ViewBag.lastname = user.LastName;
 
 
-			// ViewBag.courses = user!.Courses!.ToList();
+
+
+			//var User = _context.Users.Where(x => x.Id == user.Id).Include(x => x.Portfolios);
+
+			//var skills = _context.portfolios.Where(x => x.UserId == user.Id).Include(x => x.Skill).ToList();
 
 
 			return View(user);
@@ -286,15 +290,15 @@ namespace CoStudy.Controllers
 
 				if (user != null)
 				{
-					using (TransactionScope scope = new TransactionScope())
-					{
+					//using (TransactionScope scope = new TransactionScope())
+					//{
 						//using(new Trans)
 						user.LinkedIn = model.LinkedIn;
 						user.GitHub = model.GitHub;
-						user.Courses_Ids = model.Courses_Ids != null && model.Courses_Ids.Length > 0 ? string.Join(",", model.Courses_Ids) : user.Courses_Ids;
-						user.OnlineCourses_Ids = model.OnlineCourses_Ids != null && model.OnlineCourses_Ids.Length > 0 ? string.Join(",", model.OnlineCourses_Ids) + "," + user.OnlineCourses_Ids : user.OnlineCourses_Ids;
-						user.Books_Ids = model.Books_Ids != null && model.Books_Ids.Length > 0 ? string.Join(",", model.Books_Ids) + "," + user.Books_Ids : user.Books_Ids;
-						user.Skills_Ids = model.Skills_Ids != null && model.Skills_Ids.Length > 0 ? string.Join(",", model.Skills_Ids) + "," + user.Skills_Ids : user.Skills_Ids;
+						//user.Courses_Ids = model.Courses_Ids != null && model.Courses_Ids.Length > 0 ? string.Join(",", model.Courses_Ids) : user.Courses_Ids;
+						user.OnlineCourses_Ids = model.OnlineCourses_Ids != null && model.OnlineCourses_Ids.Length > 0 ? string.Join(",", model.OnlineCourses_Ids) : "";
+						user.Books_Ids = model.Books_Ids != null && model.Books_Ids.Length > 0 ? string.Join(",", model.Books_Ids)  : "";
+						user.Skills_Ids = model.Skills_Ids != null && model.Skills_Ids.Length > 0 ? string.Join(",", model.Skills_Ids): "";
 						user.FirstName = model.FirstName;
 						user.LastName = model.LastName;
 						user.Website = model.Website;
@@ -325,14 +329,19 @@ namespace CoStudy.Controllers
 							OnlineCoursesIds = user.OnlineCourses_Ids,
 							Interests = user.Skills_Ids,
 							UniCourses = model.SelectedUniCourses,
-							CurrentPortfolio = oldportfolio,
+							CurrentPortfolio = oldportfolio
 						};
 
-						var json = JsonConvert.SerializeObject(requestBody);
+                        var settings = new JsonSerializerSettings
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        };
+
+                        var json = JsonConvert.SerializeObject(requestBody,settings);
 						var content = new StringContent(json, Encoding.UTF8, "application/json");
 
 						// todo python url
-						var response = await _httpClient.PostAsync("http://127.0.0.1:8000/batool", content);
+						var response = await _httpClient.PostAsync("http://127.0.0.1:8000/batool/", content);
 
 
 						string responseContent = await response.Content.ReadAsStringAsync();
@@ -348,7 +357,7 @@ namespace CoStudy.Controllers
 							{
 								UserId = r.UserID,
 								Flag = r.Flag,
-								OnlineCourseId = r.CourseId
+								OnlineCourseId = r.OnlineCourseId
 							}).ToList();
 
 							_context.RecommendedCourses.AddRange(newRecommendedCourses);
@@ -359,15 +368,15 @@ namespace CoStudy.Controllers
 
 						await _context.SaveChangesAsync();
 
-						return Ok("");
+						return RedirectToAction("Portfolio", "Account", new { id = model.UserId });
 					}
 				}
-			}
+			//}
 			return View(model);
 		}
 
 
-
+		[HttpGet]
 		public async Task<IActionResult> RecommendedCourses(string? id)
 		{
 
@@ -394,44 +403,7 @@ namespace CoStudy.Controllers
 		}
 
 
-		[HttpGet("/courses")]//endpoint
-		public async Task<IActionResult> YourEndpoint()
-		{
-			var user = await userManager.FindByEmailAsync("ahmad@yahoo.com");
 
-			if (user == null)
-			{
-				return BadRequest();
-			}
-			else
-			{
-
-				return Ok(user.Courses_Ids);
-
-			}
-		}
-
-		//test to consume
-		[HttpGet]
-		public IActionResult consume()
-		{
-
-			var _httpClient = new HttpClient();
-			HttpResponseMessage response = _httpClient.GetAsync("http://127.0.0.1:8000/batool/").Result;
-
-			if (response.IsSuccessStatusCode)
-			{
-
-
-				string result = response.Content.ReadAsStringAsync().Result;
-				return Ok(result);
-
-
-			}
-			return BadRequest();
-
-
-		}
 
 		//     }
 
