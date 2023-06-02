@@ -318,13 +318,6 @@ namespace CoStudy.Controllers
 						List<Portfolio> oldportfolio = _context.portfolios.Where(e => e.UserId == user.Id).ToList();
 						_context.portfolios.RemoveRange(_context.portfolios.Where(c => c.UserId == model.UserId));
 
-						List<Portfolio> CurrentPortfolio = new List<Portfolio>();
-						CurrentPortfolio.Add(new Portfolio { SkillId = 2, Scale = 0.5, UserId = model.UserId });
-						CurrentPortfolio.Add(new Portfolio { SkillId = 5, Scale = 0.8, UserId = model.UserId });
-
-						_context.portfolios.AddRange(CurrentPortfolio);
-
-
 
 						PythonRequestBody requestBody = new PythonRequestBody
 						{
@@ -332,7 +325,7 @@ namespace CoStudy.Controllers
 							OnlineCoursesIds = user.OnlineCourses_Ids,
 							Interests = user.Skills_Ids,
 							UniCourses = model.SelectedUniCourses,
-							CurrentPortfolio = CurrentPortfolio,
+							CurrentPortfolio = oldportfolio,
 						};
 
 						var json = JsonConvert.SerializeObject(requestBody);
