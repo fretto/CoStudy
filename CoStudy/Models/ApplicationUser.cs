@@ -37,6 +37,10 @@ namespace CoStudy.Models
 
         public List<RecommendedCourses>? RecommendedCourses { get; set; }
 
+        //
+        public List<SelectedUniCourses>? selectedUniCourses { get; set; }
+
+
 
 
 

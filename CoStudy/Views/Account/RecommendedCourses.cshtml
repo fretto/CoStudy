@@ -1,0 +1,152 @@
+﻿@model IEnumerable<RecommendedCourses>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="indexstyles.css">
+    <link rel="stylesheet" href="coursesstyles.css">
+    <link rel="icon" type="image/x-icon" href="favicon.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <meta http-equiv="X-pUA-Compatible" content="ie=edge" />
+    <script type="text/javascript" src="function.js"></script>
+    <title>CoStudy</title>
+</head>
+<body>
+    <!-----------------------start of header---------------------------->
+@*    <header>
+        <a href="index.html"><img src="logo.png" alt="website-logo" width="160em" height="120em" /></a>
+        <div class="nav top">
+            <a href="signup.html">SIGN UP</a>
+            <a href="login.html">LOG IN</a>
+            <a href="#about">ABOUT</a>
+            <a href="#services">SERVICES</a>
+        </div>
+    </header>*@
+    <!-----------------------End of header---------------------------->
+    <!----html code for statements (change every 25 seconds)-->
+    <div style="background-color: #ccc; margin: 4em 5em;border-radius: 20px;padding: 3em;">
+        <h1 style="display:inline-block;"> Recommended for you    </h1>
+
+        <h3> Discover your personalized learning journey with our intelligent recommendation system, tailored to your unique skills, interests, and previous learning experiences...</h3>
+        <!--**************ADD IF STATEMENT - IF RECC IS == 0 *************-->
+         @if (!Model.Any())
+            {
+        <div style="text-align:center;margin-bottom:10px; margin-top: 50px;">
+
+           
+                <p style="font-size: 30px;"> No Courses Found - Try To Improve Your Portfolio </p>
+            
+            <img src="noresult.png" alt="no result found" width="600px" height="350px">
+        </div>
+            }
+        <!--**************END IF***********-->
+        <!-----------------------Courses View---------------------------->
+        <div class="courses-container">
+
+            <!--****FOR LOOP ON REC COURSES****-->
+            @foreach(var course in Model)
+            {
+            <div class="course-card">
+                <div class="course-image">
+                        <img src="~/images/banner.jpg" alt="Course Image" data-category="@course.OnlineCourse.Category">
+                </div>
+                <div class="course-details">
+                    <h4 style="font-weight: bolder;color:#0c48db">@course.OnlineCourse.CourseTitle</h4>
+                    <h5 style="font-weight: light;" class="course-description"> @course.OnlineCourse.CourseDescription</h5>
+
+                    <div class="rating">
+                        <span class="fa fa-star" data-rating="1"></span>
+                        <span class="fa fa-star" data-rating="2"></span>
+                        <span class="fa fa-star" data-rating="3"></span>
+                        <span class="fa fa-star" data-rating="4"></span>
+                        <span class="fa fa-star" data-rating="5"></span>
+                    </div>
+                    <i class="bi bi-eye-fill" style="float:right">41</i>
+                    <!---****************ADD IF STATEMENT FOR FLAG***********-->
+                        @if (course.Flag)
+                        {
+                            <small style="float:left;color:blue;padding-top: 5px;">*you have a missed prerequisite</small>
+                        }
+                        <!---****************END IF STATEMENT FOR FLAG***********-->
+                </div>
+            </div>
+            }
+            <!--****END FOR LOOP ON REC COURSES****-->
+
+        </div>
+    </div>
+    <!-----------------------end of courses------------------------>
+
+
+    <script>
+        /* display cat name above course img*/
+        document.addEventListener('DOMContentLoaded', () => {
+            const courseImages = document.querySelectorAll(".course-image img");
+            // Loop through each course image and add a category name overlay
+            courseImages.forEach((image) => {
+                const categoryName = image.dataset.category; // Get the category name from the data-category attribute
+                const overlay = document.createElement("div"); // Create a new div element for the overlay
+                overlay.classList.add("category-overlay"); // Add the "category-overlay" class to the div element
+                overlay.textContent = categoryName; // Set the text content of the div element to the category name
+                image.parentElement.appendChild(overlay); // Add the div element as a child of the course image's parent element
+            });
+        });
+
+        // Get all the elements with the class "course-description"
+        var descriptions = document.getElementsByClassName("course-description");
+
+        // Loop through all the elements and truncate the text
+        for (var i = 0; i < descriptions.length; i++) {
+            var description = descriptions[i];
+            var truncatedDescription = description.textContent.substr(0, 90) + "...";
+            description.textContent = truncatedDescription;
+        }
+
+        /*rating system*/
+        function handleStarClick(e, ratingSystem) {
+            const clickedStar = e.target;
+            const clickedRating = clickedStar.getAttribute("data-rating");
+            const stars = ratingSystem.querySelectorAll(".fa-star");
+            for (let i = 0; i < stars.length; i++) {
+                const star = stars[i];
+                const starRating = star.getAttribute("data-rating");
+                if (starRating <= clickedRating) {
+                    star.classList.add("active");
+                } else {
+                    star.classList.remove("active");
+                }
+            }
+        }
+
+        const ratingSystems = document.querySelectorAll(".rating");
+        ratingSystems.forEach((ratingSystem) => {
+            const stars = ratingSystem.querySelectorAll(".fa-star");
+            stars.forEach((star) => {
+                star.classList.remove("active");
+                star.addEventListener("click", (e) => {
+                    handleStarClick(e, ratingSystem);
+                });
+            });
+        });
+
+    </script>
+</body>
+@*<!-----------------------start of footer section------------------------->
+<footer>
+    <a href="index.html"><img src="logo.png" alt="website-logo" width="160em" height="120em" /></a>
+    <div class="nav footernav">
+        <a href="#home">SIGN UP</a>
+        <a href="#login">LOG IN</a>
+        <a href="#about">ABOUT</a>
+        <a href="#login">SERVICES</a>
+    </div>
+    <br> <br>
+    <div class="copyright"> All Right reserved - CoStudy</div>
+</footer>
+<!-------------------------End of footer section----------------------------->
+*@</html>

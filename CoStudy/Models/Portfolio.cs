@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,11 +9,15 @@ namespace CoStudy.Models
     {
 
         [ForeignKey("User")]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+
         public string? UserId { get; set; }
         public ApplicationUser? User { get; set; }
 
         public int SkillId { get; set; }
-        public Skill? Skill { get; set; }//label
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+
+        public Skill? Skill { get; set; }
         public double Scale { get; set; }
 
 

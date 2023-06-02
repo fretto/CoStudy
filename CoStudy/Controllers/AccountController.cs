@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.DotNet.MSIdentity.Shared;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Security.Policy;
 using System.Text;
@@ -288,23 +290,33 @@ namespace CoStudy.Controllers
 
                 var user = await userManager.FindByIdAsync(model.UserId);
 
+
                 if (user != null)
                 {
 
                     user.LinkedIn = model.LinkedIn;
                     user.GitHub = model.GitHub;
                     user.Courses_Ids = model.Courses_Ids != null && model.Courses_Ids.Length > 0 ? string.Join(",", model.Courses_Ids) : user.Courses_Ids;
-                    user.OnlineCourses_Ids = model.OnlineCourses_Ids != null && model.OnlineCourses_Ids.Length > 0 ? string.Join(",", model.OnlineCourses_Ids) : user.OnlineCourses_Ids;
-                    user.Books_Ids = model.Books_Ids != null && model.Books_Ids.Length > 0 ? string.Join(",", model.Books_Ids) : user.Books_Ids;
-                    user.Skills_Ids = model.Skills_Ids != null && model.Skills_Ids.Length > 0 ? string.Join(",", model.Skills_Ids) : user.Skills_Ids;
+                    user.OnlineCourses_Ids = model.OnlineCourses_Ids != null && model.OnlineCourses_Ids.Length > 0 ? string.Join(",", model.OnlineCourses_Ids) + "," + user.OnlineCourses_Ids : user.OnlineCourses_Ids;
+                    user.Books_Ids = model.Books_Ids != null && model.Books_Ids.Length > 0 ? string.Join(",", model.Books_Ids)+","+user.Books_Ids : user.Books_Ids;
+                    user.Skills_Ids = model.Skills_Ids != null && model.Skills_Ids.Length > 0 ? string.Join(",", model.Skills_Ids) + "," + user.Skills_Ids : user.Skills_Ids;
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
                     user.Website = model.Website;
                     user.PhoneNumber = model.Phone;
 
 
+                    List<SelectedUniCourses> selected = new List<SelectedUniCourses>();
+                    selected.Add(new SelectedUniCourses { UserId = "226e8c95-b7b2-4fca-aa14-acbb476f1021", CourseId = 2, Grade = "A+" });
+                    selected.Add(new SelectedUniCourses { UserId = "226e8c95-b7b2-4fca-aa14-acbb476f1021", CourseId = 5, Grade = "C+" });
 
-                    _context.Update(user);//must update the user to take the new values
+                    _context.selectedUniCourses.RemoveRange(_context.selectedUniCourses.Where(c => c.UserId == model.UserId));
+
+                    _context.selectedUniCourses.AddRange(selected);
+
+
+
+                    _context.Update(user);
                     await _context.SaveChangesAsync();
 
                     //void private method
@@ -313,16 +325,38 @@ namespace CoStudy.Controllers
                     //api response with a body containing the recommended courses Id's and save them in the user table
                     //
 
+
+
+                    //to retieve the portfolio for specific user
+                    List<Portfolio> portfolio=_context.portfolios.Where(e=>e.UserId==user.Id).ToList();
+
+
+
+
                     
-                    //here i created an anonymous object that contains the values
-                    //that will be sent in the requesr body
-                    ////////////////////////////////////////////////////////////
-                    
+
+
+
+                    //List<Portfolio> CurrentPortfolio = new List<Portfolio>();
+                    //CurrentPortfolio.Add(new Portfolio { SkillId = 2, Scale = 0.5 });
+                    //CurrentPortfolio.Add(new Portfolio { SkillId = 5, Scale = 0.8 });
+
+
+
+
+                    //the data sent in the json
                     var requestData = new
                     {
                         UserId=user.Id,
-                        CoursesIds = user.Courses_Ids,
-                        OnlineCoursesIds = user.OnlineCourses_Ids
+                        UniCourses=selected,
+
+                        //list of university course+grade
+                       // CoursesIds = user.Courses_Ids,
+                        OnlineCoursesIds = user.OnlineCourses_Ids,
+                        CurrentPortfolio=portfolio,
+
+                        Interests=user.Skills_Ids
+
                     };
 
 
@@ -330,10 +364,54 @@ namespace CoStudy.Controllers
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-                    
+                    ///////////////handling the response 
+                   
+                    var _httpClient = new HttpClient();
+
+                    // var response = await _httpClient.PostAsync("", content);
 
 
-                  return RedirectToAction("Portfolio", "Account", new { id = model.UserId});
+                    //var responseContent = await response.Content.ReadAsStringAsync();
+
+                    string jsonResponse = @"
+{
+  ""UpdatedPorfolio"": [
+    {
+      ""UserId"": ""da52becc-32c2-4eb0-a3bc-447d5abd7098"",
+      ""SkillId"": 2,
+      ""Scale"": 0.8
+    },
+    // ... other portfolio objects
+  ],
+  ""RecommendedCourses"": [
+    {
+      ""UserId"": ""da52becc-32c2-4eb0-a3bc-447d5abd7098"",
+      ""OnlineCourseId"": 53,
+      ""Flag"": 0
+    },
+    // ... other recommended course objects
+  ]
+}";
+
+
+
+                    dynamic responseObj = JsonConvert.DeserializeObject(jsonResponse);
+                    List<Portfolio> portfolios = JsonConvert.DeserializeObject<List<Portfolio>>(responseObj["UpdatedPorfolio"].ToString());
+                    List<RecommendedCourses> recommendedCourses = JsonConvert.DeserializeObject<List<RecommendedCourses>>(responseObj["RecommendedCourses"].ToString());
+
+
+                     foreach(Portfolio port in portfolios)
+                    {
+
+                        user.Portfolios.Add(port);
+                    }
+
+
+
+                    return Ok(recommendedCourses);
+
+
+                  //return RedirectToAction("Portfolio", "Account", new { id = model.UserId});
 
 
 
@@ -345,6 +423,32 @@ namespace CoStudy.Controllers
             }
             return View(model);
 
+
+        }
+
+
+
+        public async Task<IActionResult> RecommendedCourses(string? id)
+        {
+
+            if(id == null)
+            {
+
+                return RedirectToAction("Index", "Home");
+
+            }
+
+            var user = await userManager.FindByIdAsync(id);
+
+            if(user== null) {
+				return RedirectToAction("Index", "Home");
+
+
+			}
+
+            var recoCourses = _context.RecommendedCourses.Where(u => u.UserId == user.Id).Include(x => x.OnlineCourse).ToList();
+
+            return View(recoCourses);
 
         }
 

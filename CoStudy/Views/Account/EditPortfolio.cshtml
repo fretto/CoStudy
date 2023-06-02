@@ -105,7 +105,7 @@
                                 <label for="skills">Select Skills:</label>
                                 <select id="skills" name="Skills_Ids" class="selectpicker form-control" multiple data-live-search="true" data-size="5">
                                     <option value="default" selected disabled>skills</option>
-                                    @foreach(var skill in Model.Skills)
+                                    @foreach (var skill in Model.Skills)
                                     {
                                         <option value="@skill.SkillId">@skill.SkillName</option>
 
@@ -268,7 +268,7 @@
                                                 </select>
                                             </div>
 
-                                            @*  <div class="form-group col-md-2">
+                                              <div class="form-group col-md-2">
                                             <label for="mark">Mark:</label>
                                             <select class="form-control" name="mark" required>
                                             <option value="default" disabled selected>Select a mark</option>
@@ -283,7 +283,7 @@
                                             <option value="D+">D+</option>
                                             <option value="D">D</option>
                                             </select>
-                                            </div>*@
+                                            </div>
                                         </div>
                                     </div>
 
