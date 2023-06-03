@@ -454,7 +454,7 @@
         const form = document.getElementById('myForm');
 
         form.addEventListener('submit', function (event) {
-            //  event.preventDefault(); // Prevent the form from submitting normally
+             event.preventDefault(); // Prevent the form from submitting normally
 
             // Get the form data
             const formData = new FormData(form);
@@ -488,7 +488,7 @@
                     jsonData[name] = value;
                 }
             }
-
+             console.log(jsonData)
             fetch('/Account/EditPortfolio', {
                 method: 'POST',
                 headers: {
@@ -496,11 +496,8 @@
                 },
                 body: JSON.stringify(jsonData)
             })
-                .then(response => response.json())
-                .then(data => {
-
-
-                    // Handle the response from the backend API
+        .then(response => {
+          // Handle the response from the backend API
                     if (response.ok) {
                         // Success
                         console.log('Data sent successfully');
