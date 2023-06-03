@@ -375,11 +375,11 @@ namespace CoStudy.Controllers
 
 						await _context.SaveChangesAsync();
 
-					return RedirectToAction("Portfolio", "Account", new {id=user.Id});
+					return Ok();
 					}
 				}
 			//}
-			return View(model);
+			return BadRequest();
 		}
 
 
