@@ -91,13 +91,6 @@
 <!--------------------------end of header------------------------------->
 
 
-@*@foreach(var skill in Model.Portfolios)
-{
-	
-	<p>@skill.Skill.SkillName</p>
-
-}*@
-
 
 
 
@@ -165,11 +158,18 @@
 
 
 									<!--GET DATA FROM DB-->
-									<p>Skill 1</p>
-									<div class="progress mb-3  skills">
-										<div class="progress-bar bg-primary" role="progressbar" style="width: 70%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
 
+									@foreach(var skill in Model.Portfolios){
+										<p>@skill.Skill.SkillName</p>
+
+										
+											double scale = @skill.Scale * 100;
+
+										
+										<div class="progress mb-3  skills">
+										<div class="progress-bar bg-primary" role="progressbar" style="width:@scale%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+									}
 
 
 								</div>

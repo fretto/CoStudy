@@ -174,7 +174,11 @@ namespace CoStudy.Controllers
 
 
 
-			var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+			var user = _context.Users
+	       .Include(u => u.Portfolios)
+		   .ThenInclude(p => p.Skill)
+	          .FirstOrDefault(u => u.Id == id);
+
 			if (user == null)
 			{
 				TempData["warning"] = "Please login or sign up first";
@@ -188,9 +192,11 @@ namespace CoStudy.Controllers
 
 
 
+
 			//var User = _context.Users.Where(x => x.Id == user.Id).Include(x => x.Portfolios);
 
 			//var skills = _context.portfolios.Where(x => x.UserId == user.Id).Include(x => x.Skill).ToList();
+
 
 
 			return View(user);
@@ -274,7 +280,7 @@ namespace CoStudy.Controllers
 
 		[HttpPost]
 		//[Route("Account/EditPortfolio")]
-		public async Task<IActionResult> EditPortfolio([FromBody] ManagePortfolioDTO model)
+		public async Task<IActionResult> EditPortfolio( [FromBody] ManagePortfolioDTO model)
 		{
 
 			if (ModelState.IsValid)
@@ -329,7 +335,8 @@ namespace CoStudy.Controllers
 							OnlineCoursesIds = user.OnlineCourses_Ids,
 							Interests = user.Skills_Ids,
 							UniCourses = model.SelectedUniCourses,
-							CurrentPortfolio = oldportfolio
+							CurrentPortfolio = oldportfolio,
+							Books=user.Books_Ids
 						};
 
                         var settings = new JsonSerializerSettings
@@ -368,7 +375,7 @@ namespace CoStudy.Controllers
 
 						await _context.SaveChangesAsync();
 
-						return RedirectToAction("Portfolio", "Account", new { id = model.UserId });
+					return RedirectToAction("Portfolio", "Account", new {id=user.Id});
 					}
 				}
 			//}

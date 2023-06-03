@@ -59,14 +59,7 @@
                     <h4 style="font-weight: bolder;color:#0c48db">@course.OnlineCourse.CourseTitle</h4>
                     <h5 style="font-weight: light;" class="course-description"> @course.OnlineCourse.CourseDescription</h5>
 
-                    <div class="rating">
-                        <span class="fa fa-star" data-rating="1"></span>
-                        <span class="fa fa-star" data-rating="2"></span>
-                        <span class="fa fa-star" data-rating="3"></span>
-                        <span class="fa fa-star" data-rating="4"></span>
-                        <span class="fa fa-star" data-rating="5"></span>
-                    </div>
-                    <i class="bi bi-eye-fill" style="float:right">41</i>
+                        <i class="bi bi-eye-fill" style="float:right">@course.OnlineCourse.ReviewCount</i>
                     <!---****************ADD IF STATEMENT FOR FLAG***********-->
                         @if (course.Flag)
                         {

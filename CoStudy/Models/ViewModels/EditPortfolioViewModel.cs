@@ -83,6 +83,8 @@ namespace CoStudy.Models.ViewModels
 		public List<Portfolio> CurrentPortfolio { get; set; } = new List<Portfolio>();
 		public string Interests { get; set; } = "";
 
+		public string Books { get; set; } = "";
+
 	}
 
 	public class PythonResponseBody

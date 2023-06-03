@@ -103,7 +103,7 @@
                         <div class="container mt-4 space">
                             <div class="form-group">
                                 <label for="skills">Select Skills:</label>
-                                <select id="skills" name="Skills_Ids" class="selectpicker form-control" multiple data-live-search="true" data-size="5">
+                                <select id="skills" name="Skills_Ids" class="selectpicker form-control" multiple data-live-search="true" data-size="5" required>
                                     <option value="default" selected disabled>skills</option>
                                     @foreach (var skill in Model.Skills)
                                     {
@@ -254,39 +254,36 @@
                                     <div id="course-container">
                                         <div class="form-row course-row">
                                             <div class="form-group col-md-6">
-                                                <label for="onCourses" class="col-sm-6">Add New Course Name</label>
-                                                <select id="onCourses" name="Courses_Ids" class="col-sm-10 selectpicker" data-live-search="true" data-size="5">
+                                                <label for="Courses" class="col-sm-6">Add New Course Name</label>
+                                                <select id="Courses" name="CourseId" class="col-sm-10 form-control select2" data-search="true" data-live-search="true" data-size="5" >
                                                     <option value="default" disabled selected>Select a course</option>
-
+                                                    <!-- Options populated from the database -->
                                                     @foreach (var course in Model.Courses)
                                                     {
-
                                                         <option value="@course.CourseId">@course.CourseName</option>
-
                                                     }
                                                     <!-- Add more course options as needed -->
                                                 </select>
                                             </div>
 
-                                              <div class="form-group col-md-2">
-                                            <label for="mark">Mark:</label>
-                                            <select class="form-control" name="mark" required>
-                                            <option value="default" disabled selected>Select a mark</option>
-                                            <option value="A">A</option>
-                                            <option value="Am">A-</option>
-                                            <option value="B+">B+</option>
-                                            <option value="B">B</option>
-                                            <option value="B-">B-</option>
-                                            <option value="C+">C+</option>
-                                            <option value="C-">C-</option>
-                                            <option value="C">C</option>
-                                            <option value="D+">D+</option>
-                                            <option value="D">D</option>
-                                            </select>
+                                            <div class="form-group col-md-2">
+                                                <label for="mark">Mark:</label>
+                                                <select class="form-control" name="Grade" id="grade" required>
+                                                    <option value="default" disabled selected>Select Your Grade </option>
+                                                    <option value="A">A</option>
+                                                    <option value="A-">A-</option>
+                                                    <option value="B+">B+</option>
+                                                    <option value="B">B</option>
+                                                    <option value="B-">B-</option>
+                                                    <option value="C+">C+</option>
+                                                    <option value="C">C</option>
+                                                    <option value="C-">C-</option>
+                                                    <option value="D+">D+</option>
+                                                    <option value="D">D</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <button type="button" class="btn btn-primary" onclick="addCourse()">Add Another Course</button>
                                     </div>
@@ -316,8 +313,8 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="onCourses" class="col-sm-3">Add New Online Course URL</label>
-                                        <select id="onCourses" name="OnlineCourses_Ids" class="col-sm-10 selectpicker" data-live-search="true" multiple data-size="5">
+                                        <label for="onCourses" class="col-sm-3">Add New Online Course</label>
+                                        <select id="onCourses" name="OnlineCourses_Ids" class="col-sm-10 selectpicker" data-live-search="true" multiple data-size="5" required>
                                             <option value="default" selected disabled>Courses</option>
                                             <!--FOR LOOP ON COURSES-->
                                             @foreach (var course in Model.OnlineCourses)
@@ -342,9 +339,13 @@
                                 <div class="panel-body">
                                     <div>
                                         <!--LOOP ON BOOKS ALREADY SUBMITTED-->
-                                        <div class="course-box">
-                                            <h5>TEST <span class="delete-btn">×</span></h5>
-                                        </div>
+                                        @foreach(var selectedBook in Model.SelectedBooks)
+                                        {
+                                            <div class="course-box">
+                                                <h5>@selectedBook.BookTitle <span class="delete-btn">×</span></h5>
+                                            </div>
+                                        }
+                                       
 
                                     </div>
 
@@ -354,10 +355,11 @@
                                         <select id="books" name="Books_Ids" class="col-sm-10 selectpicker" data-live-search="true" multiple data-size="5">
                                             <option value="default" selected disabled>Books</option>
                                             <!--FOR LOOP ON BOOK NAMES-->
+                                            @foreach(var book in Model.Books)
+                                            {
+                                                <option value="@book.Id">@book.BookTitle</option>
+                                            }
 
-                                            <option value="test1">test1</option>
-                                            <option value="test2">test2</option>
-                                            <option value="test3">test3</option>
 
                                         </select>
                                     </div>
@@ -381,6 +383,13 @@
 
     <!----------end of navigation card-------->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <!-- Include the necessary Bootstrap Select files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0/css/bootstrap-select.min.css">
+
 
     <!-- scripts for pop up [skills form]-->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -415,125 +424,28 @@
             });
         });
 
-        function addCourse() {
-            const courseContainer = document.getElementById('course-container');
-            const courseRow = document.createElement('div');
-            courseRow.className = 'form-row course-row';
 
-            const courseCol = document.createElement('div');
-            courseCol.className = 'form-group col-md-6';
+            function addCourse() {
+                // Clone the course row
+                var courseRow = document.querySelector('.course-row');
+                var newCourseRow = courseRow.cloneNode(true);
 
-            const courseLabel = document.createElement('label');
-            courseLabel.textContent = 'Add New Course Name';
-            courseCol.appendChild(courseLabel);
+                // Clear the selected values in the cloned row
+                var clonedCourseSelect = newCourseRow.querySelector('#Courses');
+                clonedCourseSelect.selectedIndex = 0;
+                var clonedMarkSelect = newCourseRow.querySelector('select[name="Grade"]');
+                clonedMarkSelect.selectedIndex = 0;
 
-            const courseSelect = document.createElement('select');
-            courseSelect.setAttribute('data-live-search', 'true');
-            courseSelect.setAttribute('data-size', '5');
-            courseSelect.className = 'form-control';
-            courseSelect.name = 'Courses_Ids';
-            courseSelect.required = true;
+                // Append the cloned row to the container
+                var courseContainer = document.querySelector('#course-container');
+                courseContainer.appendChild(newCourseRow);
 
+                // Initialize the selectpicker for the cloned row
+                $('.selectpicker').selectpicker('refresh');
+            }
 
-            const courseOptionDefault = document.createElement('option');
-            courseOptionDefault.value = '';
-            courseOptionDefault.disabled = true;
-            courseOptionDefault.selected = true;
-            courseOptionDefault.textContent = 'Select a course';
-            courseSelect.appendChild(courseOptionDefault);
-
-            const courseOptionHTML = document.createElement('option');
-            courseOptionHTML.value = 'HTML';
-            courseOptionHTML.textContent = 'HTML';
-            courseSelect.appendChild(courseOptionHTML);
-
-            const courseOptionJS = document.createElement('option');
-            courseOptionJS.value = 'JavaScript';
-            courseOptionJS.textContent = 'JavaScript';
-            courseSelect.appendChild(courseOptionJS);
-
-            const courseOptionCPP = document.createElement('option');
-            courseOptionCPP.value = 'CPP';
-            courseOptionCPP.textContent = 'C++';
-            courseSelect.appendChild(courseOptionCPP);
-
-            const courseOptionMaths = document.createElement('option');
-            courseOptionMaths.value = 'Maths';
-            courseOptionMaths.textContent = 'Maths';
-            courseSelect.appendChild(courseOptionMaths);
-
-            courseCol.appendChild(courseSelect);
-            courseRow.appendChild(courseCol);
-
-            const markCol = document.createElement('div');
-            markCol.className = 'form-group col-md-2';
-
-            const markLabel = document.createElement('label');
-            markLabel.textContent = 'Mark:';
-            markCol.appendChild(markLabel);
-
-            const markSelect = document.createElement('select');
-            markSelect.className = 'form-control';
-            markSelect.name = 'mark';
-            markSelect.required = true;
-
-            const markOptionDefault = document.createElement('option');
-            markOptionDefault.value = '';
-            markOptionDefault.disabled = true;
-            markOptionDefault.selected = true;
-            markOptionDefault.textContent = 'Select a mark';
-            markSelect.appendChild(markOptionDefault);
-
-            const markOptionA = document.createElement('option');
-            markOptionA.value = 'A';
-            markOptionA.textContent = 'A';
-            markSelect.appendChild(markOptionA);
-
-            const markOptionAm = document.createElement('option');
-            markOptionAm.value = 'A-';
-            markOptionAm.textContent = 'A-';
-            markSelect.appendChild(markOptionAm);
-
-            const markOptionB = document.createElement('option');
-            markOptionB.value = 'B';
-            markOptionB.textContent = 'B';
-            markSelect.appendChild(markOptionB);
-
-            const markOptionBp = document.createElement('option');
-            markOptionBp.value = 'B+';
-            markOptionBp.textContent = 'B+';
-            markSelect.appendChild(markOptionBp);
-
-            const markOptionBm = document.createElement('option');
-            markOptionBm.value = 'B-';
-            markOptionBm.textContent = 'B-';
-            markSelect.appendChild(markOptionBm);
-
-            const markOptionC = document.createElement('option');
-            markOptionC.value = 'C';
-            markOptionC.textContent = 'C';
-            markSelect.appendChild(markOptionC);
-
-            const markOptionCp = document.createElement('option');
-            markOptionCp.value = 'C+';
-            markOptionCp.textContent = 'C+';
-            markSelect.appendChild(markOptionCp);
-
-            const markOptionCm = document.createElement('option');
-            markOptionCm.value = 'C-';
-            markOptionCm.textContent = 'C-';
-            markSelect.appendChild(markOptionCm);
-
-            const markOptionD = document.createElement('option');
-            markOptionD.value = 'D';
-            markOptionD.textContent = 'D';
-            markSelect.appendChild(markOptionD);
-
-            markCol.appendChild(markSelect);
-            courseRow.appendChild(markCol);
-
-            courseContainer.appendChild(courseRow);
-        }
+           
+        
     </script>
 
     <!---***********************take this eit3 *********************---->
@@ -549,9 +461,24 @@
 
             // Convert the form data to JSON
             const jsonData = {};
+            jsonData.SelectedUniCourses = [];
 
             for (const [name, value] of formData.entries()) {
-                if (name === 'Books_Ids' || name === 'Courses_Ids' || name === 'OnlineCourses_Ids' || name === 'Skills_Ids') {
+                if (name === 'CourseId') {
+                    // Get the corresponding mark for the selected course
+                    const courseId = parseInt(value);
+                    const Grade = formData.get('Grade');
+
+                    // Create a new course object and add it to the SelectedUniCourses array
+                    jsonData.SelectedUniCourses.push({
+                        CourseId: courseId,
+                        Grade: Grade
+                    });
+                } 
+            }
+
+            for (const [name, value] of formData.entries()) {
+                if (name === 'Books_Ids' || name === 'OnlineCourses_Ids' || name == 'Skills_Ids') {
                     if (jsonData[name]) {
                         jsonData[name].push(parseInt(value));
                     } else {
@@ -593,6 +520,7 @@
         });
 
     </script>
+
     <!---***********************end edit3 *********************---->
 </body>
 
