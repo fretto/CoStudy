@@ -267,7 +267,7 @@ namespace CoStudy.Controllers
 
 
 
-
+			ViewBag.userId = model.UserId;
 
 
 
