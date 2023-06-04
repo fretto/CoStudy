@@ -95,13 +95,15 @@
         {
             
 <div class="course-card">
+                    <a href="@Url.Content(course.CourseURL)" class="course-card-link">
+
                 <div class="course-image">
                     <img src="~/images/banner.jpg" alt="Course Image" data-category="@course.Category">
                 </div>
                 <div class="course-details">
-                        <h3>@course.CourseTitle</h3>  
+                        <h4 style="font-weight: bolder;color:#0c48db">@course.CourseTitle</h4>
 
-                    <p class="course-description">@course.CourseDescription</p>
+                        <h5 style="font-weight: light;" class="course-description">@course.CourseDescription</h5>
 
                     <div class="rating">
                         <span class="fa fa-star" data-rating="1"></span>
@@ -111,12 +113,13 @@
                         <span class="fa fa-star" data-rating="5"></span>
                     </div>
 
-                        <a href="@Url.Content(course.CourseURL)">Learn More</a> @if (@course.ReviewCount != null)
+                        @if (@course.ReviewCount != null)
                         {
-                            <i class="bi bi-eye-fill" style="margin-left:70px;">@course.ReviewCount</i>
+                                <i class="bi bi-eye-fill" style="float:right">@course.ReviewCount</i>
                         }
                     </div>
-            </div>
+                    </a>
+                </div>
         }
 
         

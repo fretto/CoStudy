@@ -302,3 +302,11 @@ p {
     .rating .fa-star.active, .rating .fa-star:hover {
         color: #0062cc !important
     }
+.category-overlay {
+    font-size: 30px; /* Adjust the value to your desired font size */
+}
+.course-card-link {
+    text-decoration: none;
+    color: inherit;
+    /* Add any additional custom styles here */
+}
