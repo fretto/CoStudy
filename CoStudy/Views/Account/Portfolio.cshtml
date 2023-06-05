@@ -148,30 +148,42 @@
 						</div>
 					</div>
 				</div>
+
+
+
 				<!-----Skills Section----->
 				<div class="col-md-8">
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="card">
 								<div class="card-body">
-									<h5 class="d-flex align-items-center mb-3">User Skills</h5>
+									@if (Model.Portfolios.Any())
+									{
+										<h5 class="d-flex align-items-center mb-3">User Skills</h5>
 
 
-									<!--GET DATA FROM DB-->
 
-									@foreach(var skill in Model.Portfolios){
-										<p>@skill.Skill.SkillName</p>
 
-										
+										<!--GET DATA FROM DB-->
+
+										@foreach (var skill in Model.Portfolios)
+										{
+											<p>@skill.Skill.SkillName</p>
+
+
 											double scale = Math.Floor(@skill.Scale * 100);
 
-										
-										<div class="progress mb-3  skills">
-										<div class="progress-bar bg-primary" role="progressbar" style="width:@scale%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"> @scale%</div>
-									</div>
+
+											<div class="progress mb-3  skills">
+												<div class="progress-bar bg-primary" role="progressbar" style="width:@scale%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"> @scale%</div>
+											</div>
+										}
+
 									}
-
-
+									else
+									{
+										<h5> You do not have skills yet,complete your portfolio</h5>
+									}
 								</div>
 							</div>
 						</div>

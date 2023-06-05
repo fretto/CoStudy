@@ -302,11 +302,51 @@ p {
     .rating .fa-star.active, .rating .fa-star:hover {
         color: #0062cc !important
     }
+
 .category-overlay {
     font-size: 30px; /* Adjust the value to your desired font size */
 }
+
 .course-card-link {
     text-decoration: none;
     color: inherit;
     /* Add any additional custom styles here */
+}
+/*styles of pagination*/
+
+.Pcontainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pagination1 {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.page-item1 {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.page-link1 {
+    display: inline-block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+    .page-link:hover {
+        background-color: #f5f5f5;
+    }
+
+.page-item.active .page-link {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
 }

@@ -41,7 +41,7 @@
            
                 <p style="font-size: 30px;"> No Courses Found - Try To Improve Your Portfolio </p>
             
-            <img src="noresult.png" alt="no result found" width="600px" height="350px">
+            <img src="~/images/noresult.png" alt="no result found" width="600px" height="350px">
         </div>
             }
         <!--**************END IF***********-->
@@ -52,6 +52,8 @@
             @foreach(var course in Model)
             {
             <div class="course-card">
+                    <a href="@Url.Content(course.OnlineCourse.CourseURL)" class="course-card-link">
+
                 <div class="course-image">
                         <img src="~/images/banner.jpg" alt="Course Image" data-category="@course.OnlineCourse.Category">
                 </div>
@@ -67,6 +69,7 @@
                         }
                         <!---****************END IF STATEMENT FOR FLAG***********-->
                 </div>
+                </a>
             </div>
             }
             <!--****END FOR LOOP ON REC COURSES****-->

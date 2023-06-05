@@ -101,7 +101,7 @@
                     <img src="~/images/banner.jpg" alt="Course Image" data-category="@course.Category">
                 </div>
                 <div class="course-details">
-                        <h4 style="font-weight: bolder;color:#0c48db">@course.CourseTitle</h4>
+                        <h3 style="font-weight: bolder;color:#0c48db">@course.CourseTitle</h3>
 
                         <h5 style="font-weight: light;" class="course-description">@course.CourseDescription</h5>
 
@@ -129,18 +129,29 @@
 
 
     @*    start of pagination bar
-    *@    <div class="container">
+    *@    <div style="display: flex;
+    justify-content: flex-end;margin-right:320px;">
 
         @if (page.TotalPages > 0)
         {
 
-            <ul class="pagination justify-content-end">
+            <ul style="list-style-type: none;
+    padding:0;
+    margin:0;" justify-content-end">
 
                 @for (var pge = page.StartPage; pge <= page.EndPage; pge++)
                 {
 
-                    <li class="page-item @(pge==page.CurrentPage?"active" :"")">
-                        <a class="page-link" asp-controller="Home" asp-action="AllCourses1" asp-route-pg="@pge">@pge</a>
+                    <li style=" display: inline-block;
+    margin: 0 5px;" @(pge==page.CurrentPage?"active" :"")>
+                        <a style="display: inline-block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;" asp-controller="Home" asp-action="AllCourses1" asp-route-pg="@pge">@pge</a>
 
 
 
@@ -181,7 +192,7 @@
 
     for (var i = 0; i < descriptions.length; i++) {
         var description = descriptions[i];
-        var truncatedDescription = description.textContent.substr(0, 70) + "...";
+        var truncatedDescription = description.textContent.substr(0, 350) + "...";
         description.textContent = truncatedDescription;
     }
 
