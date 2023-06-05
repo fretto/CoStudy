@@ -95,6 +95,7 @@
 
 
 <body>
+
 	<div class="container">
 		<div class="main-body">
 			<div class="row">
@@ -106,8 +107,7 @@
 								<div class="mt-3">
 									<h4>@Model.UserName</h4>
 
-									@{string major=@Enum.GetName(typeof(Major),Model.major);}
-									<p class="text-secondary mb-1">@major</p>
+									<p class="text-secondary mb-1">@Model.Major</p>
 									<p class="text-muted font-size-sm">University Of Jordan</p>
 								</div>
 							</div>

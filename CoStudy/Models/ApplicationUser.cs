@@ -13,7 +13,7 @@ namespace CoStudy.Models
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 
-        public Major major { get; set; }
+        public string? Major { get; set; }
 
         public string? LinkedIn { get; set; }
         public string? GitHub { get; set; }

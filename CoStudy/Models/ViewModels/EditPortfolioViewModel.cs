@@ -10,7 +10,7 @@ namespace CoStudy.Models.ViewModels
 		public string? LastName { get; set; }
 		// public string? UserName { get; set; }
 
-		public Major major { get; set; }
+		public string? Major { get; set; }
 		public string? LinkedIn { get; set; }
 		public string? GitHub { get; set; }
 		public string? Website { get; set; }
@@ -53,7 +53,7 @@ namespace CoStudy.Models.ViewModels
 		//  public string? UserName { get; set; }
 
 
-		public int MajorId { get; set; }
+		public string? Major { get; set; }
 		public string? LinkedIn { get; set; }
 		public string? GitHub { get; set; }
 		public string? Website { get; set; }

@@ -27,7 +27,7 @@ namespace CoStudy.Models.ViewModels
 
        
 
-        public Major major { get; set; }
+        public string Major { get; set; }
 
 		[DataType(DataType.Password)]
 		[Required(ErrorMessage = "Password is required")]

@@ -52,7 +52,7 @@ namespace CoStudy.Controllers
 					LastName = model.LastName!,
 					Email = model.Email,
 					UserName = model.UserName,
-					major = model.major //here
+					Major = model.Major //here
 
 				};
 
@@ -193,9 +193,6 @@ namespace CoStudy.Controllers
 
 
 
-			//var User = _context.Users.Where(x => x.Id == user.Id).Include(x => x.Portfolios);
-
-			//var skills = _context.portfolios.Where(x => x.UserId == user.Id).Include(x => x.Skill).ToList();
 
 
 
@@ -230,9 +227,9 @@ namespace CoStudy.Controllers
 				LastName = user.LastName,
 				GitHub = user.GitHub,
 				LinkedIn = user.LinkedIn,
-				Website = user.Website
-
-
+				Website = user.Website,
+				Major=user.Major
+				
 
 
 
@@ -266,11 +263,7 @@ namespace CoStudy.Controllers
 			model.SelectedSkills = skills.Where(c => model.Skills_Ids.Contains(c.SkillId)).ToList();
 
 
-
-			ViewBag.userId = model.UserId;
-
-
-
+			
 
 			return View(model);
 
@@ -301,6 +294,7 @@ namespace CoStudy.Controllers
 						//using(new Trans)
 						user.LinkedIn = model.LinkedIn;
 						user.GitHub = model.GitHub;
+					user.Major = model.Major;
 						//user.Courses_Ids = model.Courses_Ids != null && model.Courses_Ids.Length > 0 ? string.Join(",", model.Courses_Ids) : user.Courses_Ids;
 						user.OnlineCourses_Ids = model.OnlineCourses_Ids != null && model.OnlineCourses_Ids.Length > 0 ? string.Join(",", model.OnlineCourses_Ids) : "";
 						user.Books_Ids = model.Books_Ids != null && model.Books_Ids.Length > 0 ? string.Join(",", model.Books_Ids)  : "";

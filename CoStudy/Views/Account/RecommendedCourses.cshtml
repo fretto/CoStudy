@@ -58,8 +58,8 @@
                         <img src="~/images/banner.jpg" alt="Course Image" data-category="@course.OnlineCourse.Category">
                 </div>
                 <div class="course-details">
-                    <h4 style="font-weight: bolder;color:#0c48db">@course.OnlineCourse.CourseTitle</h4>
-                    <h5 style="font-weight: light;" class="course-description"> @course.OnlineCourse.CourseDescription</h5>
+                    <h3 style="font-weight: bolder;color:#0c48db">@course.OnlineCourse.CourseTitle</h3>
+                    <h4 style="font-weight: light;" class="course-description"> @course.OnlineCourse.CourseDescription</h4>
 
                         <i class="bi bi-eye-fill" style="float:right">@course.OnlineCourse.ReviewCount</i>
                     <!---****************ADD IF STATEMENT FOR FLAG***********-->
@@ -99,7 +99,7 @@
         // Loop through all the elements and truncate the text
         for (var i = 0; i < descriptions.length; i++) {
             var description = descriptions[i];
-            var truncatedDescription = description.textContent.substr(0, 90) + "...";
+            var truncatedDescription = description.textContent.substr(0, 200) + "...";
             description.textContent = truncatedDescription;
         }
 
